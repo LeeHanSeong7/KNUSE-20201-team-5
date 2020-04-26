@@ -3,12 +3,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeView from '../views/HomeView';
 import GInfoCheckView from '../views/GInfoCheckView';
 import ManageRemainView from '../views/ManageRemainView';
+import OptionsView from '../views/OptionsView';
+import TabBarIcon from '../components/TabBarIcon';
+
+import { StyleSheet } from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
-export default function BottomTabNavigator({ navigation, route }) {
-    navigation.setOptions({ headerTitle: getHeaderTitle(route)});
+export default function BottomTabNavigator(props) {
+
+    props.navigation.setOptions({ headerTitle: getHeaderTitle(props.route)});
 
     return (
         <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
@@ -16,24 +21,34 @@ export default function BottomTabNavigator({ navigation, route }) {
                 name="Home"
                 component={HomeView}
                 options={{
-                    title: 'Home Screen!!!',
-                    tabBarIcon: ({ focused }) => <tabBarIcon focused={focused} name="haha" />,
+                    title: '홈',
+                    tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="home" />,
                 }}
             />
              <BottomTab.Screen
                 name="ManageRemain"
                 component={ManageRemainView}
                 options={{
-                    title: 'ManageRemain',
-                    tabBarIcon: ({ focused }) => <tabBarIcon focused={focused} name="haha" />,
+                    title: '졸업관리',
+                    tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="graduation" />,
                 }}
+                
             />
              <BottomTab.Screen
                 name="GInfoCheck"
                 component={GInfoCheckView}
                 options={{
-                    title: 'GInfoCheck',
-                    tabBarIcon: ({ focused }) => <tabBarIcon focused={focused} name="haha" />,
+                    title: '졸업목록',
+                    tabBarIcon: ({ focused }) => <TabBarIcon style={styles.icon} focused={focused} name="list" />,
+                }}
+            />
+            <BottomTab.Screen
+                name="Options"
+                component={OptionsView}
+                initialParams={{setUserLoggedIn: props.setUserLoggedIn}}
+                options={{
+                    title: '더보기',
+                    tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name='options' />
                 }}
             />
         </BottomTab.Navigator>
@@ -47,7 +62,18 @@ function getHeaderTitle(route) {
 
     switch (routeName) {
         case 'Home':
-            return 'test';
+            return '홈';
+        case 'ManageRemain':
+            return '졸업관리';
+        case 'GInfoCheck':
+            return '졸업목록';
+        case 'Options':
+            return '더보기';        
     }
-    return 'df';
 } 
+
+const styles = StyleSheet.create({
+    container: {
+
+    },
+});
