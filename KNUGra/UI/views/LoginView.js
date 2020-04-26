@@ -5,13 +5,14 @@ import { TextInput } from 'react-native-gesture-handler';
 import logo from '../../assets/images/login_logo.png';
 
 
-export default function LoginView({ isAutoLoginOn }) {
+export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [id, onChangeIDText] = React.useState(isAutoLoginOn ? '미리 저장된 ID' : null);
     const [password, onChangePWText] = React.useState();
     const [isButtonDisabled, setButtonDisabled] = React.useState(true);
     const [selectedPickerValue, setSelectedPickerValue] = React.useState();
     const onPressLogIn = () => {
         setButtonDisabled(true);
+        setUserLoggedIn(true);
     }
 
     return (
@@ -25,7 +26,7 @@ export default function LoginView({ isAutoLoginOn }) {
                     <Picker
                         style={styles.picker}
                         selectedValue={selectedPickerValue}
-                        onValueChange={(itemValue, itemIndex) => setSelectedPickerValue(itemValue)}
+                        onValueChannge={(itemValue, itemIndex) => setSelectedPickerValue(itemValue)}
                     >
                         <Picker.Item label="test" value="test"/>
                         <Picker.Item label="test1" value="test1"/>
