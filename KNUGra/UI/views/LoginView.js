@@ -1,15 +1,15 @@
 import React from 'react';
-import { Text, StyleSheet, View, Platform, StatusBar, Image, KeyboardAvoidingView, Button, Picker } from 'react-native';
+import { StyleSheet, View, Image, KeyboardAvoidingView, Button, Picker } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
 import logo from '../../assets/images/login_logo.png';
-
+import MajorPicker from '../components/MajorPicker';
 
 export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [id, onChangeIDText] = React.useState(isAutoLoginOn ? '미리 저장된 ID' : null);
     const [password, onChangePWText] = React.useState();
     const [isButtonDisabled, setButtonDisabled] = React.useState(true);
-    const [selectedPickerValue, setSelectedPickerValue] = React.useState();
+    const [selectedPickerValue, setSelectedPickerValue] = React.useState('t1');
     const onPressLogIn = () => {
         setButtonDisabled(true);
         setUserLoggedIn(true);
@@ -23,20 +23,10 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
                 </View>
 
                 <View style={styles.pickeArea}>
-                    <Picker
-                        style={styles.picker}
-                        selectedValue={selectedPickerValue}
-                        onValueChannge={(itemValue, itemIndex) => setSelectedPickerValue(itemValue)}
-                    >
-                        <Picker.Item label="test" value="test"/>
-                        <Picker.Item label="test1" value="test1"/>
-                        <Picker.Item label="test2" value="test2"/>
-                        <Picker.Item label="test4" value="test4"/>
-                        <Picker.Item label="test5" value="test5"/>
-                        <Picker.Item label="test6" value="test6"/>
-                        <Picker.Item label="test7" value="test7"/>
-                    </Picker>
-
+                    <MajorPicker 
+                        selectedPickerValue={selectedPickerValue}
+                        setSelectedPickerValue={setSelectedPickerValue}    
+                    />
                 </View>
             
                 <View style={styles.inputArea}>
@@ -82,6 +72,23 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
 
+    logoArea: {
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: -60
+    },
+
+    pickeArea: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    inputArea: {
+        flex: 5,
+    },
+
     textInput: {
         alignSelf: 'center',
         fontSize: 26,
@@ -91,34 +98,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         paddingLeft: 5,
         marginBottom: 10,
-        minWidth: '66%',
-        maxWidth: '80%',
-    },
-
-    logoArea: {
-        flex: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    pickeArea: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: '10%',
-
-    },
-
-
-    inputArea: {
-        flex: 6,
-    },
-
-    picker: {
-        alignSelf: 'center',
-        fontSize: 13,
-        color: '#2e78b7',
-        paddingLeft: 5,
         minWidth: '66%',
         maxWidth: '80%',
     },
