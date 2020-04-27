@@ -1,10 +1,35 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Button } from 'react-native';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
-export default function HomeView() {
+export default function HomeView({ navigation }) {
+
+    const onPressButton1 = () => { navigation.navigate('ManageRemain') };
+    const onPressButton2 = () => { navigation.navigate('GInfoCheck') };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Homeviewiirwieri</Text>
+            <SimpleLineIcons.Button 
+                style={styles.button}
+                backgroundColor="#000"
+                name='graduation'
+                size={80}
+                onPress={onPressButton1}
+
+            >
+            졸업관리
+            </SimpleLineIcons.Button>
+            <View style={styles.spacer} />
+            <SimpleLineIcons.Button 
+                style={styles.button}
+                backgroundColor="#000"
+                name='list'
+                size={80}
+                onPress={onPressButton2}
+
+            >
+            졸업목록
+            </SimpleLineIcons.Button>
         </View>
     );
 }
@@ -17,9 +42,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    text: {
-        fontSize: 26, 
-        color: '#000',
-    }
+    spacer: {
+        height: '5%',
+
+    },
+
+    button: {
+        padding: 30,
+        //margin: 20,
+        width: '80%',
+    },
 });
 
