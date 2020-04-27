@@ -9,7 +9,7 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [id, onChangeIDText] = React.useState(isAutoLoginOn ? '미리 저장된 ID' : null);
     const [password, onChangePWText] = React.useState();
     const [isButtonDisabled, setButtonDisabled] = React.useState(true);
-    const [selectedPickerValue, setSelectedPickerValue] = React.useState('t1');
+    const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
     const onPressLogIn = () => {
         setButtonDisabled(true);
         setUserLoggedIn(true);
