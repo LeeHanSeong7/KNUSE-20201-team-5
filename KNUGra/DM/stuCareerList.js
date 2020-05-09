@@ -1,0 +1,3 @@
+class stuCareerList extends Object{
+    
+}
