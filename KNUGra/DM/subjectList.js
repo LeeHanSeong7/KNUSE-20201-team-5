@@ -37,6 +37,6 @@ HashMap.prototype = {
     }
 };
 
-class subjectList extends HashMap{
+class subjectList extends Object{
 
 };
