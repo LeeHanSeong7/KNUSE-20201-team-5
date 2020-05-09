@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text, SectionList } from 'react-native';
+import { View, StyleSheet, Text, SectionList, Button } from 'react-native';
 import MajorPicker from '../components/MajorPicker';
 import { Font } from '../constants/Constants';
 import ProgressBar from 'react-native-progress/Bar';
+import ButtonList from '../components/ButtonList';
 
 export default function ManageRemain() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
@@ -19,10 +20,9 @@ export default function ManageRemain() {
                 <SectionList
                     sections={DATA}
                     keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => <Item name={item.name} value={item.value} progress={item.progress}></Item>}
+                    renderItem={({ item }) => <Item name={item.name} value={item.value} progress={item.progress} list={item.list} ></Item>}
                     renderSectionHeader={({section: {title}}) => <Header style={styles.header} title={title}/>}
                 >
-
                 </SectionList>
             </View>
         </View>
@@ -48,31 +48,16 @@ function Header({title}) {
     }
 }
 
-function Item({name, value, progress}) {
-
-    if (value === null) {
-        return (
-            <View style={styles.item}>
+function Item({name, value, progress, list}) {
+    return (
+        <View style={styles.item}>
+            <View style={styles.itemBasic}>
                 <Text style={styles.itemText}>{name}</Text>
-                <View style={styles.spacer} />
-                {progress? (
-                <View style={styles.progressArea}>
-                    <Text style={styles.progressText}>{progress*100}%</Text>
-                    <ProgressBar 
-                        style={styles.progressBar} 
-                        width={null} 
-                        height={16}
-                        progress={progress}/>
-                </View>
-                ) : null }
-            </View>
-        );
-    } else {
-        return (
-            <View style={styles.item}>
-                <Text style={styles.itemText}>{name}</Text>
-                <Text style={styles.itemText}>{value}</Text>
-                {progress? (
+                {value!==null? (
+                    <Text style={styles.itemText}>{value}</Text>
+                ) : <View style={styles.spacer} />}
+                
+                {progress!==null? (
                 <View style={styles.progressArea}>
                     <Text style={styles.progressText}>{Math.round(progress*100)}%</Text>
                     <ProgressBar 
@@ -83,8 +68,13 @@ function Item({name, value, progress}) {
                 </View>
                 ) : null }
             </View>
-        );
-    }
+            {list? (
+                <View style={styles.buttonListArea}>
+                    <ButtonList list={list}></ButtonList>
+                </View>
+            ) : null }
+        </View>
+    );
 }
 
 const DATA = [
@@ -92,7 +82,7 @@ const DATA = [
       title: '졸업요건 달성현황',
       data: [
         {name: '총   합', progress: .7},
-        {name: '이수학점', value: '76/150학점', progress: 0.58}, 
+        {name: '이수학점', value: '76/150학점', progress: 0}, 
         {name: '교양', value: '36/24학점', progress: 1}, 
         {name: '전공', value: '39/51학점', progress: 0.76}, 
         {name: '창업역량', value: '6/3학점', progress: 1, list:[]}
@@ -104,6 +94,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+
+    buttonListArea: {
+        justifyContent: 'center',
+        paddingBottom: 3,
     },
 
     itemText: {
@@ -148,13 +143,14 @@ const styles = StyleSheet.create({
     },
 
     item: {
-        flexDirection: 'row',
-        padding: 20,
-
         borderBottomColor: 'black',
         borderBottomWidth: 1,
-        textAlignVertical: 'bottom',
     },  
+    itemBasic: {
+        flexDirection: 'row',
+        padding: 20,
+        textAlignVertical: 'bottom',
+    },
     header: {
         marginTop: 3,
         backgroundColor: '#fff',
