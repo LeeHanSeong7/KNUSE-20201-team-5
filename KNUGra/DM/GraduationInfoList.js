@@ -1,0 +1,3 @@
+class GraduationInfoList extends Object{
+    
+}
