@@ -133,14 +133,14 @@ const styles = StyleSheet.create({
 
     pickerArea: {
         flex: 1,
-        alignItems:'baseline',
+        alignItems:'flex-start',
         paddingLeft: '3%',
-        paddingTop: '3%',
+        justifyContent: 'center',
     },
 
     listArea: {
-        flex: 9,
-        paddingHorizontal: '10%',
+        flex: 10,
+        paddingHorizontal: '4%',
     },
     
     text: {
