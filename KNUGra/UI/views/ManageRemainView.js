@@ -81,12 +81,22 @@ const DATA = [
     {
       title: '졸업요건 달성현황',
       data: [
-        {name: '총   합', progress: .7},
-        {name: '이수학점', value: '76/150학점', progress: 0}, 
-        {name: '교양', value: '36/24학점', progress: 1}, 
-        {name: '전공', value: '39/51학점', progress: 0.76}, 
-        {name: '창업역량', value: '6/3학점', progress: 1, list:[]}
-        ],
+            {name: '총   합', progress: .7},
+            {name: '이수학점', value: '76/150학점', progress: 0}, 
+            {name: '교양', value: '36/24학점', progress: 1}, 
+            {name: '전공', value: '39/51학점', progress: 0.76}, 
+            {name: '창업역량', value: '6/3학점', progress: 1, 
+            list:
+                {title: '창업 과목 이수 현황',
+                data: [
+                    {name: '창업가정신', value: 'X'},
+                    {name: '혼자하는창업실무', value: 'X'},
+                    {name: '창업가정신', value: 'X'},
+                    {name: '창업가정신', value: 'X'},
+                    {name: '창업가정신', value: 'X'},
+                ]}
+            }
+         ],
     },
 ];
 
