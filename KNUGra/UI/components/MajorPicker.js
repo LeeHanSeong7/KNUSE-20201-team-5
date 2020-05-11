@@ -43,10 +43,9 @@ export default function MajorPicker({ selectedPickerValue, setSelectedPickerValu
             <Picker
                 style={styles.picker_android}
                 selectedValue={selectedPickerValue}
-                onValueChannge={(itemValue, itemIndex) => setSelectedPickerValue(itemValue)}
-
+                onValueChange={(itemValue, itemIndex) => setSelectedPickerValue(itemValue)}
             >
-                <Picker.Item label="test" value="test" />
+                <Picker.Item label="testasdfawefawef" value="testasdfawefawef" />
                 <Picker.Item label="test1" value="test1" />
                 <Picker.Item label="test2" value="test2" />
                 <Picker.Item label="test4" value="test4" />
@@ -60,22 +59,12 @@ export default function MajorPicker({ selectedPickerValue, setSelectedPickerValu
 
 const styles = StyleSheet.create({
     picker_android: {
-        alignSelf: 'center',
-        fontSize: Font.size - 4,
-        color: '#2e78b7',
-        paddingLeft: 5,
         minWidth: '66%',
         maxWidth: '80%',
     },
     picker_ios: {
         minWidth: '66%',
         maxWidth: '80%',
-        height: '50%',
-        textAlignVertical: 'center',
-        textAlign: 'center',
-        borderBottomColor: 'red',
-        borderBottomWidth: 10,
-        padding: '30%',
     },
 
 

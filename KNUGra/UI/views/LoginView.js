@@ -48,15 +48,16 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
                     placeholder='Password'
                     onSubmitEditing={onPressLogIn}
                     />
+                    <View style={styles.loginButtonArea}>
+                        <Button 
+                            style={styles.loginButton}
+                            onPress={onPressLogIn}
+                            title='로그인'
+                            accessibilityLabel="Login button"
+                            disabled={isButtonDisabled}
+                        />
 
-                    <Button 
-                        style={styles.loginButton}
-                        onPress={onPressLogIn}
-                        title='로그인'
-                        accessibilityLabel="Login button"
-                        disabled={isButtonDisabled}
-                    />
-
+                    </View>
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -88,6 +89,14 @@ const styles = StyleSheet.create({
 
     inputArea: {
         flex: 5,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+
+    loginButtonArea: {
+        marginTop: 10,
+        minWidth: '66%',
+        maxWidth: '80%',
     },
 
     textInput: {
@@ -104,8 +113,6 @@ const styles = StyleSheet.create({
     },
 
     loginButton: {
-        backgroundColor: 'rgb(219, 33, 39)',
-        width:'66%',
-        fontFamily: 'bold',
+        flex: 1,
     }
 });

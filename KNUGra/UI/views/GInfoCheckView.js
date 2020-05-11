@@ -6,8 +6,6 @@ import { Font } from '../constants/Constants';
 export default function GInfoCheckView() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
 
-
-
     return (
         <View style={styles.container}>
             <View style={styles.pickerArea}>
@@ -16,6 +14,7 @@ export default function GInfoCheckView() {
                     setSelectedPickerValue={setSelectedPickerValue}
                 />
             </View>
+
             <View style={styles.listArea}>
                 <SectionList
                     sections={DATA}
@@ -23,7 +22,6 @@ export default function GInfoCheckView() {
                     renderItem={({ item }) => <Item name={item.name} value={item.value}></Item>}
                     renderSectionHeader={({section: {title}}) => <Header style={styles.header} title={title}/>}
                 >
-
                 </SectionList>
             </View>
         </View>
@@ -84,6 +82,7 @@ function Item({name, value}) {
     }
 }
 
+
 const DATA = [
     {
       title: '졸업요건',
@@ -115,14 +114,14 @@ const styles = StyleSheet.create({
 
     pickerArea: {
         flex: 1,
-        alignItems:'baseline',
+        alignItems: 'flex-start',
         paddingLeft: '3%',
-        paddingTop: '3%',
+        justifyContent: 'center',
     },
 
     listArea: {
-        flex: 9,
-        paddingHorizontal: '10%',
+        flex: 10,
+        paddingHorizontal: '4%',
     },
     
     text: {
