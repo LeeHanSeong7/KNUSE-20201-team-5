@@ -1,3 +1,3 @@
-class stuCareerList extends Object{
+class StuCareerList extends Object{
     
 }
