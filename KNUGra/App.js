@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginView from './UI/views/LoginView';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import BottomTabNavigator from './UI/navigation/BottomTabNavigator';
+import Database from './DM/Database';
 
 YellowBox.ignoreWarnings([
   'Non-serializable values were found in the navigation state',
@@ -14,18 +15,23 @@ YellowBox.ignoreWarnings([
 
 const Stack = createStackNavigator();
 
+
+// load database at the beginning .. .
+Database.load();
+
 export default function App(props) {
 
 
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [isUserLoggedIn, setUserLoggedIn] = React.useState(false);
 
+  
+
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHide();
-
         // Load fonts if we want
       } catch(e) {
         console.warn(e);
