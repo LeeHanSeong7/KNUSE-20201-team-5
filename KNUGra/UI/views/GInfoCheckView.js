@@ -2,9 +2,14 @@ import React from 'react';
 import { View, StyleSheet, Text, SectionList } from 'react-native';
 import MajorPicker from '../components/MajorPicker';
 import { Font } from '../constants/Constants';
+import GInfoCheckViewModel from '../../PD/GinfoCheckViewModel';
 
 export default function GInfoCheckView() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
+
+    const gInfoCheckViewModel = new GInfoCheckViewModel();
+    console.log('lalala');
+    const data = gInfoCheckViewModel.getDATA()
 
     return (
         <View style={styles.container}>
@@ -17,7 +22,7 @@ export default function GInfoCheckView() {
 
             <View style={styles.listArea}>
                 <SectionList
-                    sections={DATA}
+                    sections={data}
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) => <Item name={item.name} value={item.value}></Item>}
                     renderSectionHeader={({section: {title}}) => <Header style={styles.header} title={title}/>}

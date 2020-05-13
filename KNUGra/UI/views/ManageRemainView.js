@@ -4,9 +4,13 @@ import MajorPicker from '../components/MajorPicker';
 import { Font } from '../constants/Constants';
 import ProgressBar from 'react-native-progress/Bar';
 import ButtonList from '../components/ButtonList';
+import ManageRemainViewModel from '../../PD/RemainManageViewModel';
 
 export default function ManageRemain() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
+
+    const manageRemainViewModel = new ManageRemainViewModel();
+    console.log('lhhahahaha');
 
     return (
         <View style={styles.container}>
