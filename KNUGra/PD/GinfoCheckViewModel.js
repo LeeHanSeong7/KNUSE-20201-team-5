@@ -1,3 +1,4 @@
+
 const DATA = [
     {
         title: '졸업 요건',
@@ -21,28 +22,9 @@ const DATA = [
     }
 ];
 
-export function getDesignUIString(trackname){
-
-}
-export function getRequiredUIString(trackname){
-
-}
-export function getStartupUIString(trackname){
-
-}
-export function getCommonUIString(trackname){
-
-}
-export function getGeneralUIString(trackname){
-
-}
-export function getCombineUIString(trackname){
-
-}
-export function getGraduationUIString(trackname){
-
-}
-
-export function getDATA(trackname){
-    return DATA;
+export default class GInfoCheckViewModel {
+    
+    getDATA(trackname){
+        return DATA;
+    }
 }

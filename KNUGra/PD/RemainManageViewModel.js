@@ -26,3 +26,7 @@ export function getGraduationUIString(trackname){
 export function getDATA(trackname){
     return DATA;
 }
+
+export default class RemainManageViewModel {
+
+}
