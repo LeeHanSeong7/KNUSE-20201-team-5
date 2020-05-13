@@ -1,4 +1,4 @@
-const designSubjectList = [
+export default designSubjectList = [
     {"교과목번호":"COMP205","개설학과":null,"교과목명":"기초창의공학설계","교과구분":null,"학점":2},
     {"교과목번호":"COMP217","개설학과":null,"교과목명":"자바프로그래밍","교과구분":null,"학점":2},
     {"교과목번호":"ELEC462","개설학과":null,"교과목명":"시스템프로그래밍","교과구분":null,"학점":2},

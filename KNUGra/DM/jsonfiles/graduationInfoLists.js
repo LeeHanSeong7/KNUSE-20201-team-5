@@ -1,4 +1,4 @@
-const graduationInfoLists = {
+export default graduationInfoLists = {
     "심화컴퓨터전공(ABEEK)":
     [
         {"이수학점":150},

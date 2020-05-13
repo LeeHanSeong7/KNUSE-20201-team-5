@@ -1,4 +1,4 @@
-const startupSubjectList = [
+export default startupSubjectList = [
     {"교과목번호":"COMP428","개설학과":null,"교과목명":"IT기술경영개론","교과구분":null,"학점":3,"학기":null},
     {"교과목번호":"CLTR757","개설학과":null,"교과목명":"글로벌창업실습개론","교과구분":null,"학점":3,"학기":null},
     {"교과목번호":"CLTR086","개설학과":null,"교과목명":"기업가정신과벤처창업","교과구분":null,"학점":3,"학기":null},

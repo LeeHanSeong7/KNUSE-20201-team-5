@@ -1,4 +1,4 @@
-const recommendedSubjectList = {
+export default recommendedSubjectList = {
     "빅데이터전공" : 
     [   
         {"교과목번호":"COME331","개설학과":null,"교과목명":"자료구조","교과구분":null,"학점":3,"개설학년":null,"개설학기":null},

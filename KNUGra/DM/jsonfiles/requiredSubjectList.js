@@ -1,4 +1,4 @@
-const requiredSubjectList = {
+export default requiredSubjectList = {
     "심화컴퓨터전공(ABEEK)" : 
     [   
         {"교과목번호":"CLTR211","개설학과":null,"교과목명":"수학 I","교과구분":"전공기반","학점":3,"대체교과목번호":""},
