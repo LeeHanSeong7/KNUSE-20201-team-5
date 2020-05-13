@@ -1,55 +1,57 @@
-let instance = null;
+import DesignSubjectListJSON from './jsonfiles/designSubjectList';
+import GraduationInfoListsJSON from './jsonfiles/graduationInfoLists';
+import RecommendedSubjectListJSON from './jsonfiles/recommendedSubjectList';
+import RequiredSubjectListJSON from './jsonfiles/requiredSubjectList';
+import StartupSubjectListJSON from './jsonfiles/startupSubjectList';
 
-class Database {
-    constructor(){
-        if(instance) return instance;
+let designSubjectList = null;
+let requiredSubjectList = null;
+let startupSubjectList = null;
+let recommendedSubjectList = null;
+let graduationInfoLists = null;
 
-        this.requiredSubjectList = new SubjectList();
-        this.designSubjectList = new SubjectList();
-        this.startupSubjectList = new SubjectList();
-        this.recommendedSubjectList = new SubjectList();
-        this.graduationInfoLists = new GraduationInfoList();
+const loadDesignSubjectList = () => {
+    designSubjectList = DesignSubjectListJSON;
+};
+const loadRequiredSubjectLists = () => {
+    requiredSubjectList = RequiredSubjectListJSON;
+};
+const loadStartupSubjectList = () => {
+    startupSubjectList = StartupSubjectListJSON;
+};
+const loadRecommendedSubjectLists = () => {
+    recommendedSubjectList = RecommendedSubjectListJSON;
+};
+const loadGraduationInfoLists = () => {
+    graduationInfoLists = GraduationInfoListsJSON;
+};
 
-        instance = this;
-    }
+const Database =  {
 
-    load(){
-        this.designSubjectList = this.loadDesignSubjectList();
-        this.requiredSubjectLists = this.loadRequiredSubjectLists();
-        this.startupSubjectList = this.loadStartupSubjectList();
-        this.recommendedSubjectLists = this.loadRecommendedSubjectLists();
-        this.graduationInfoLists = this.loadGraduationInfoLists();
-    }
+    load : () => {
+        loadDesignSubjectList();
+        loadRequiredSubjectLists();
+        loadStartupSubjectList();
+        loadRecommendedSubjectLists();
+        loadGraduationInfoLists();
+    },
 
-    loadDesignSubjectList(){
-        this.designSubjectList = designSubjectList;
-    }
-    loadRequiredSubjectLists(){
-        this.requiredSubjectList = requiredSubjectList;
-    }
-    loadStartupSubjectList(){
-        this.startupSubjectList = startupSubjectList;
-    }
-    loadRecommendedSubjectLists(){
-        this.recommendedSubjectList = recommendedSubjectList;
-    }
-    loadGraduationInfoLists(){
-        this.graduationInfoLists = graduationInfoLists;
-    }
-
-    getDesignSubjectList(){
-        return this.designSubjectList;
-    }
-    getRequiredSubjectLists(){
-        return this.requiredSubjectList;
-    }
-    getStartupSubjectList(){
-        return this.startupSubjectList;
-    }
-    getRecommendedSubjectLists(){
-        return this.recommendedSubjectList;
-    }
-    getGraduationInfoLists(){
-        return this.graduationInfoLists;
-    }
+    getDesignSubjectList: () => {
+        return designSubjectList;
+    },
+    getRequiredSubjectLists: () => {
+        return requiredSubjectList;
+    },
+    getStartupSubjectList: () => {
+        return startupSubjectList;
+    },
+    getRecommendedSubjectLists: () => {
+        return recommendedSubjectList;
+    },
+    getGraduationInfoLists: () => {
+        return graduationInfoLists;
+    },
 }
+
+Object.freeze(Database);
+export default Database;
