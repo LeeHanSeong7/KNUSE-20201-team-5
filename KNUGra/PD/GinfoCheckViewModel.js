@@ -1,20 +1,20 @@
-var DATA = [
-    {
-        title: '졸업 요건',
-        data: [{name: '-',value:-1}]
-    },
-    {
-        title: '필수 교과목',
-        data: [{name: '-'}]
-    },
-    {
-        title: '설계 교과목',
-        data: [{name: '-'}]
-    }
-];
-
 export default class GInfoCheckViewModel {
     DB = new database();
+
+    DATA = [
+        {
+            title: '졸업 요건',
+            data: [{name: '-',value:-1}]
+        },
+        {
+            title: '필수 교과목',
+            data: [{name: '-'}]
+        },
+        {
+            title: '설계 교과목',
+            data: [{name: '-'}]
+        }
+    ];
 
     getDesignUIstring(trackname){
         return DB.getDesignSubjectList.map(function(item){
