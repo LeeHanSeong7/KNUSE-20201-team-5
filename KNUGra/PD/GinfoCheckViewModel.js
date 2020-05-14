@@ -7,18 +7,21 @@ var DATA = [
     },
     {
         title: '필수 교과목',
-        data: [{name: '-'}]
+        data: [{name: '+'}]
     },
     {
         title: '설계 교과목',
-        data: [{name: '-'}]
+        data: [{name: '='}]
     }
 ];
 
 export default class GInfoCheckViewModel {
     
     getDesignUIstring(trackname){
-        return Database.getDesignSubjectList.map(function(item){
+        
+        //console.log(Database.getDesignSubjectList)
+        
+        return Database.getDesignSubjectList().map(function(item){
             if (item["교과목명"] === null){
                 return {name: '-'};
             }
@@ -26,7 +29,9 @@ export default class GInfoCheckViewModel {
         }) ;
     }
     getRequiredUIstring(trackname){
-        info_arr = Database.getRequiredSubjectLists[trackname];
+        info_arr = Database.getRequiredSubjectLists();
+        console.log(info_arr)
+        info_arr = info_arr[trackname];
         if (info_arr === null) return [{name: '-'}];
         return info_arr.map(function(item){
             if (item["교과목명"] === null){
@@ -42,7 +47,11 @@ export default class GInfoCheckViewModel {
         
     }
     getGraduationInfoUIstring(trackname){
-        info_arr = Database.getGraduationInfoLists[trackname];
+        let info_arr = Database.getGraduationInfoLists();//왜??? 왜 얘만?? 선언해야되????
+        
+        info_arr = info_arr[trackname];
+        console.log("here11")
+        console.log(info_arr)
         if (info_arr === null) return [{name: '-'}];
         return info_arr.map(function(item){
             key = Object.keys(item);
@@ -51,9 +60,10 @@ export default class GInfoCheckViewModel {
         });
     }
     getDATA(trackname){
-        DATA[this.DATA.map(x => x.title).indexOf('졸업 요건')].data = getGraduationInfoUIstring(trackname);
-        DATA[this.DATA.map(x => x.title).indexOf('필수 교과목')].data = getRequiredUIstring(trackname);
-        DATA[this.DATA.map(x => x.title).indexOf('설계 교과목')].data = getDesignUIstring(trackname);
+        DATA[DATA.map(x => x.title).indexOf('졸업 요건')].data = this.getGraduationInfoUIstring(trackname);
+        //DATA[DATA.map(x => x.title).indexOf('필수 교과목')].data = this.getRequiredUIstring(trackname);
+        //console.log(this.getDesignUIstring(trackname));
+        DATA[DATA.map(x => x.title).indexOf('설계 교과목')].data = this.getDesignUIstring(trackname);
         return DATA;
     }
 }
