@@ -1,3 +1,5 @@
-export function login(id,pw, trackname){
-    
+import Database from '../DM/Database';
+
+export default function login(id,pw, trackname){
+    return true
 }

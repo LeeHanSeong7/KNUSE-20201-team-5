@@ -53,7 +53,6 @@ export default class GInfoCheckViewModel {
         });
     }
     getDATA(trackname){
-        console.log("\n\nhere34")
         DATA[DATA.map(x => x.title).indexOf('졸업 요건')].data = this.getGraduationInfoUIstring(trackname);
         DATA[DATA.map(x => x.title).indexOf('필수 교과목')].data = this.getRequiredUIstring(trackname);
         DATA[DATA.map(x => x.title).indexOf('설계 교과목')].data = this.getDesignUIstring();
