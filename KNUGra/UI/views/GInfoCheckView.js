@@ -9,7 +9,7 @@ export default function GInfoCheckView() {
 
     const gInfoCheckViewModel = new GInfoCheckViewModel();
     console.log('lalala');
-    const data = gInfoCheckViewModel.getDATA()
+    const data = gInfoCheckViewModel.getDATA("테스트용입니다")//05.14 22:34 수정됨
 
     return (
         <View style={styles.container}>

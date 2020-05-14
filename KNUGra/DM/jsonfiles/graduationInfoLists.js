@@ -1,4 +1,7 @@
 export default graduationInfoLists = {
+    "테스트용입니다" :[
+        {"이수학점":150}
+    ],
     "심화컴퓨터전공(ABEEK)":
     [
         {"이수학점":150},
