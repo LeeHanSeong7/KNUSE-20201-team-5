@@ -27,6 +27,8 @@ const loadGraduationInfoLists = () => {
 };
 
 const Database =  {
+    user : new User(null),
+    serverConnect : new ServerConnect(),
 
     load : () => {
         loadDesignSubjectList();
