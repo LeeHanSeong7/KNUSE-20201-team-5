@@ -1,4 +1,4 @@
-export default requiredSubjectList = {
+const requiredSubjectList = {
     "테스트용입니다" :[
         {"교과목번호":"CLTR211","개설학과":null,"교과목명":"수학 I","교과구분":"전공기반","학점":3,"대체교과목번호":""},
     ],
@@ -70,3 +70,5 @@ export default requiredSubjectList = {
         {"교과목번호":"CLTR268","개설학과":null,"교과목명":"파이선 프로그래밍","교과구분":null,"학점":3,"대체교과목번호":null}
     ]
 };
+
+export default requiredSubjectList;

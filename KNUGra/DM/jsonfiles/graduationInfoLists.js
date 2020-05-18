@@ -1,4 +1,4 @@
-export default graduationInfoLists = {
+const graduationInfoLists = {
     "테스트용입니다" :[
         {"이수학점":150}
     ],
@@ -88,3 +88,5 @@ export default graduationInfoLists = {
     ]
 
 }
+
+export default graduationInfoLists;
