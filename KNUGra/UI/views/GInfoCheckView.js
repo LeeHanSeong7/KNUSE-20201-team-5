@@ -8,9 +8,7 @@ export default function GInfoCheckView() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
 
     const gInfoCheckViewModel = new GInfoCheckViewModel();
-    console.log('lalala');
     const data = gInfoCheckViewModel.getDATA("테스트용입니다")//05.14 22:34 수정됨
-
     return (
         <View style={styles.container}>
             <View style={styles.pickerArea}>
@@ -139,7 +137,7 @@ const styles = StyleSheet.create({
 
         borderBottomColor: 'black',
         borderBottomWidth: 1,
-        textAlignVertical: 'bottom',
+        //textAlignVertical: 'bottom',
     },  
     header: {
         marginTop: 3,
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
     subHeader: {
         flexDirection: 'row',
         marginVertical: 8,
-        textAlign: 'center',
+        //textAlign: 'center',
     },  
     headerText: {
         alignSelf: 'center',
