@@ -12,26 +12,20 @@ YellowBox.ignoreWarnings([
   'Non-serializable values were found in the navigation state',
 ]);
 
-
 const Stack = createStackNavigator();
-
-
-// load database at the beginning .. .
-Database.load();
 
 export default function App(props) {
 
-
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [isUserLoggedIn, setUserLoggedIn] = React.useState(false);
-
-  
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHide();
+        // load database at the beginning .. .
+        Database.load();
         // Load fonts if we want
       } catch(e) {
         console.warn(e);
