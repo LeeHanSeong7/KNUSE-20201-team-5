@@ -10,7 +10,6 @@ export default function ManageRemain() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
 
     const manageRemainViewModel = new ManageRemainViewModel();
-    console.log('lhhahahaha');
 
     return (
         <View style={styles.container}>
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
     itemBasic: {
         flexDirection: 'row',
         padding: 20,
-        textAlignVertical: 'bottom',
+        //textAlignVertical: 'bottom',
     },
     header: {
         marginTop: 3,
@@ -174,7 +173,7 @@ const styles = StyleSheet.create({
     subHeader: {
         flexDirection: 'row',
         marginVertical: 8,
-        textAlign: 'center',
+        //textAlign: 'center',
     },  
     headerText: {
         alignSelf: 'center',
