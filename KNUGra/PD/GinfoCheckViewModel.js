@@ -17,6 +17,8 @@ var DATA = [
 
 export default class GInfoCheckViewModel {
     
+    GInfoCheckViewModel(){};
+
     getDesignUIstring(trackname){
         return Database.getDesignSubjectList.map(function(item){
             if (item["교과목명"] === null){
@@ -24,7 +26,7 @@ export default class GInfoCheckViewModel {
             }
             return {name: item["교과목명"]};
         }) ;
-    }
+    };
     getRequiredUIstring(trackname){
         info_arr = Database.getRequiredSubjectLists[trackname];
         if (info_arr === null) return [{name: '-'}];
@@ -34,13 +36,13 @@ export default class GInfoCheckViewModel {
             }
             return {name: item["교과목명"]};
         }) ;
-    }
+    };
     getStartupUIstring(trackname){
         
-    }
+    };
     getRecommendedUIstring(trackname){
         
-    }
+    };
     getGraduationInfoUIstring(trackname){
         info_arr = Database.getGraduationInfoLists[trackname];
         if (info_arr === null) return [{name: '-'}];
@@ -49,11 +51,11 @@ export default class GInfoCheckViewModel {
             if (key === null) return {name:'-',value:-1}
             return {name: key,value: item.key};
         });
-    }
+    };
     getDATA(trackname){
-        DATA[this.DATA.map(x => x.title).indexOf('졸업 요건')].data = getGraduationInfoUIstring(trackname);
-        DATA[this.DATA.map(x => x.title).indexOf('필수 교과목')].data = getRequiredUIstring(trackname);
-        DATA[this.DATA.map(x => x.title).indexOf('설계 교과목')].data = getDesignUIstring(trackname);
+        DATA[DATA.map(x => x.title).indexOf('졸업 요건')].data = getGraduationInfoUIstring(trackname);
+        DATA[DATA.map(x => x.title).indexOf('필수 교과목')].data = getRequiredUIstring(trackname);
+        DATA[DATA.map(x => x.title).indexOf('설계 교과목')].data = getDesignUIstring(trackname);
         return DATA;
-    }
+    };
 }
