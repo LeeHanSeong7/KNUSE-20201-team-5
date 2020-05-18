@@ -6,9 +6,9 @@ import logo from '../../assets/images/login_logo.png';
 import MajorPicker from '../components/MajorPicker';
 
 export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
-    const [id, onChangeIDText] = React.useState(isAutoLoginOn ? '미리 저장된 ID' : null);
+    const [id, onChangeIDText] = React.useState(isAutoLoginOn ? '미리 저장된 ID' : "");
     const [password, onChangePWText] = React.useState();
-    const [isButtonDisabled, setButtonDisabled] = React.useState(true);
+    const [isButtonDisabled, setButtonDisabled] = React.useState(false);
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
     const onPressLogIn = () => {
         setButtonDisabled(true);
@@ -32,7 +32,7 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
                 <View style={styles.inputArea}>
                     <TextInput 
                     style={styles.textInput} 
-                    onChangeText={text => {onChangeIDText(text); setButtonDisabled(false)}}
+                    onChangeText={text => {onChangeIDText(text);}}
                     textContentType='username'
                     value={id}
                     placeholderTextColor='#9f9f9f'
@@ -40,7 +40,7 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
                     />
                     <TextInput 
                     style={styles.textInput} 
-                    onChangeText={text => {onChangePWText(text); setButtonDisabled(false)}}
+                    onChangeText={text => {onChangePWText(text);}}
                     textContentType='password'
                     value={password}
                     secureTextEntry={true}
