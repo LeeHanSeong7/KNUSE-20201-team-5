@@ -1,11 +1,16 @@
 import React from 'react';
 import { StyleSheet, Picker, Platform, ActionSheetIOS, Button, View, Text } from 'react-native';
 import { Color, Font } from '../constants/Constants';
+import { allMajors } from '../../DM/DAPATH';
 
 
 export default function MajorPicker({ selectedPickerValue, setSelectedPickerValue }) {
 
-    const options = ["취소", "심화컴퓨터전공(ABEEK)", "t2", "t3", "t4"];
+    const options = [ 
+        "취소", ...allMajors,
+    ];
+    
+    console.log(options);
 
     if (true && Platform.OS === 'ios') {
         const onPress = () => {
@@ -45,13 +50,7 @@ export default function MajorPicker({ selectedPickerValue, setSelectedPickerValu
                 selectedValue={selectedPickerValue}
                 onValueChange={(itemValue, itemIndex) => setSelectedPickerValue(itemValue)}
             >
-                <Picker.Item label="testasdfawefawef" value="testasdfawefawef" />
-                <Picker.Item label="test1" value="test1" />
-                <Picker.Item label="test2" value="test2" />
-                <Picker.Item label="test4" value="test4" />
-                <Picker.Item label="test5" value="test5" />
-                <Picker.Item label="test6" value="test6" />
-                <Picker.Item label="test7" value="test7" />
+                {allMajors.map(major => (<Picker.Item label={major} value={major} />))}
             </Picker>
         );
     }
