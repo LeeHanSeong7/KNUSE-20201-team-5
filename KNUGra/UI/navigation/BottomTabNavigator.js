@@ -6,14 +6,14 @@ import ManageRemainView from '../views/ManageRemainView';
 import OptionsView from '../views/OptionsView';
 import TabBarIcon from '../components/TabBarIcon';
 
-import { StyleSheet } from 'react-native';
-
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
 export default function BottomTabNavigator(props) {
 
-    props.navigation.setOptions({ headerTitle: getHeaderTitle(props.route)});
+    props.navigation.setOptions({ 
+        headerTitle: getHeaderTitle(props.route), 
+    });
 
     return (
         <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
@@ -39,17 +39,17 @@ export default function BottomTabNavigator(props) {
                 component={GInfoCheckView}
                 options={{
                     title: '졸업목록',
-                    tabBarIcon: ({ focused }) => <TabBarIcon style={styles.icon} focused={focused} name="list" />,
+                    tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="list" />,
                 }}
             />
             <BottomTab.Screen
                 name="Options"
                 component={OptionsView}
-                initialParams={{setUserLoggedIn: props.setUserLoggedIn}}
                 options={{
                     title: '더보기',
-                    tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name='options' />
+                    tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name='options' />,
                 }}
+                initialParams={{setUserLoggedIn: props.initialParams.setUserLoggedIn}}
             />
         </BottomTab.Navigator>
     );
@@ -71,9 +71,3 @@ function getHeaderTitle(route) {
             return '더보기';        
     }
 } 
-
-const styles = StyleSheet.create({
-    container: {
-
-    },
-});
