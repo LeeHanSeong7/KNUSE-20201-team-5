@@ -22,10 +22,7 @@ export default function MajorPicker({ selectedPickerValue, setSelectedPickerValu
                 buttonIndex => {
                     switch (buttonIndex) {
                         case 0: break;
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
+                        default:
                             setSelectedPickerValue(options[buttonIndex]);
                             break;
                     }
