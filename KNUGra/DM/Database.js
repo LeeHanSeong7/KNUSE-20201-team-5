@@ -3,6 +3,8 @@ import GraduationInfoListsJSON from './jsonfiles/graduationInfoLists';
 import RecommendedSubjectListJSON from './jsonfiles/recommendedSubjectList';
 import RequiredSubjectListJSON from './jsonfiles/requiredSubjectList';
 import StartupSubjectListJSON from './jsonfiles/startupSubjectList';
+import User from './User.js';
+import ServerConnect from './ServerConnect.js';
 
 let designSubjectList = null;
 let requiredSubjectList = null;
@@ -27,8 +29,8 @@ const loadGraduationInfoLists = () => {
 };
 
 const Database =  {
-    //user : new User(null),
-    //serverConnect : new ServerConnect(),
+    user : new User(null),
+    serverConnect : new ServerConnect(),
 
     load : () => {
         loadDesignSubjectList();

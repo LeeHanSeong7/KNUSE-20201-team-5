@@ -1,4 +1,5 @@
-function Student() {
+
+export default function Student() {
     this.careerList = null;
     this.completedSubjectList = null;
     
