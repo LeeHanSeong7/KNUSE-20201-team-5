@@ -8,10 +8,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import BottomTabNavigator from './UI/navigation/BottomTabNavigator';
 import Database from './DM/Database';
 
-YellowBox.ignoreWarnings([
-  'Non-serializable values were found in the navigation state',
-]);
-
 const Stack = createStackNavigator();
 
 export default function App(props) {
@@ -50,14 +46,22 @@ export default function App(props) {
   <SafeAreaProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='Root'>
-          {props => <BottomTabNavigator {...props} setUserLoggedIn={setUserLoggedIn} />}
+        <Stack.Screen 
+          name='Root'
+        >
+          {props => 
+          (<BottomTabNavigator
+            {...props} 
+            initialParams={{setUserLoggedIn}}
+          />)}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   </SafeAreaProvider>
   );
 }
+
+//
 
 const styles = StyleSheet.create({
   container: {
