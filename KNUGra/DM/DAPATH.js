@@ -32,9 +32,11 @@ const DAPATH = {
     SUBJECT_CREDIT : "학점",
     SUBJECT_REPLACE : "대체교과목번호",
 
+    GRAINFO_GRADUATION : "졸업 요건",
+    GRAINFO_REQUIRED : "필수 교과목",
     GRAINFO_ENGLISH : "영어성적",
     GRAINFO_STARTUP : "창업역량",
-    GRAINFO_DESIGN : "설계과목",
+    GRAINFO_DESIGN : "설계 교과목",
     GRAINFO_COMMON_MAJOR :"SW필수",
     GRAINFO_GENERAL :"SW교양",
     GRAINFO_COMBINED :"연계전공",

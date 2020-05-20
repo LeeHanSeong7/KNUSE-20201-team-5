@@ -8,7 +8,7 @@ export default function GInfoCheckView() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
 
     const gInfoCheckViewModel = new GInfoCheckViewModel();
-    const data = gInfoCheckViewModel.getGInfoCheckUIString(selectedPickerValue)//05.14 22:34 수정됨
+    const data = gInfoCheckViewModel.getGInfoCheckUIstring(selectedPickerValue)//05.14 22:34 수정됨
     return (
         <View style={styles.container}>
             <View style={styles.pickerArea}>
