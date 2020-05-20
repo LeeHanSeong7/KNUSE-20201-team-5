@@ -12,7 +12,16 @@ var DATA = [
     {
         title: '설계 교과목',
         data: [{name: '='}]
+    },
+    {
+        title: '창업 교과목',
+        data: [{name: '/'}]
+    },
+    {
+        title: '추천 교과목',
+        data: [{name: '%'}]
     }
+
 ];
 
 export default class GInfoCheckViewModel {
@@ -24,7 +33,7 @@ export default class GInfoCheckViewModel {
             }
             return {name: item["교과목명"]};
         }) ;
-    };
+    }
     getRequiredUIstring(trackname){
         let info_arr = Database.getRequiredSubjectLists();
         info_arr = info_arr[trackname];
@@ -35,13 +44,26 @@ export default class GInfoCheckViewModel {
             }
             return {name: item["교과목명"]};
         }) ;
-    };
+    }
     getStartupUIstring(trackname){
-        
-    };
+        return Database.getStartupSubjectList().map(function(item){
+            if (item["교과목명"] === undefined){
+                return {name: '/'};
+            }
+            return {name: item["교과목명"]};
+        }) ;
+    }
     getRecommendedUIstring(trackname){
-        
-    };
+        let info_arr = Database.getRecommendedSubjectLists();
+        info_arr = info_arr[trackname];
+        if (info_arr === undefined) return [{name: '%'}];
+        return info_arr.map(function(item){
+            if (item["교과목명"] === undefined){
+                return {name: '%'};
+            }
+            return {name: item["교과목명"]};
+        }) ;
+    }
     getGraduationInfoUIstring(trackname){
         let info_arr = Database.getGraduationInfoLists();//왜??? 왜 얘만?? 선언해야되????
         info_arr = info_arr[trackname];
@@ -51,11 +73,13 @@ export default class GInfoCheckViewModel {
             if (key === undefined) return {name:'-',value:-1}
             return {name: key,value: item[key]};
         });
-    };
+    }
     getDATA(trackname){
         DATA[DATA.map(x => x.title).indexOf('졸업 요건')].data = this.getGraduationInfoUIstring(trackname);
         DATA[DATA.map(x => x.title).indexOf('필수 교과목')].data = this.getRequiredUIstring(trackname);
         DATA[DATA.map(x => x.title).indexOf('설계 교과목')].data = this.getDesignUIstring();
+        DATA[DATA.map(x => x.title).indexOf('창업 교과목')].data = this.getStartupUIstring();
+        DATA[DATA.map(x => x.title).indexOf('추천 교과목')].data = this.getRecommendedUIstring(trackname);
         return DATA;
-    };
+    }
 }
