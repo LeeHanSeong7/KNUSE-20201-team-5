@@ -13,7 +13,7 @@ export default class GInfoCheckViewModel {
     getRequiredUIstring(trackname){
         let info_arr = Database.getRequiredSubjectLists();
         info_arr = info_arr[trackname];
-        if (info_arr === undefined) return ["no track"];
+        if (info_arr === undefined) return "no track";
         return info_arr.map(function(item){
             if (item["교과목명"] === undefined){
                 return {name: '-'};
@@ -32,7 +32,7 @@ export default class GInfoCheckViewModel {
     getRecommendedUIstring(trackname){
         let info_arr = Database.getRecommendedSubjectLists();
         info_arr = info_arr[trackname];
-        if (info_arr === undefined) return ["no track"];
+        if (info_arr === undefined) return "no track";
         return info_arr.map(function(item){
             if (item["교과목명"] === undefined){
                 return {name: '%'};
@@ -41,18 +41,18 @@ export default class GInfoCheckViewModel {
         }) ;
     }
     getGraduationInfoUIstring(trackname){
-        let info_arr = Database.getGraduationInfoLists();//왜??? 왜 얘만?? 선언해야되????
+        let info_arr = Database.getGraduationInfoLists();
         info_arr = info_arr[trackname];
-        if (info_arr === undefined) return ["no track"];
+        if (info_arr === undefined) return "no track";
         return info_arr.map(function(item){
             let key = Object.keys(item)[0];
             if (key === undefined) return {name:'-',value:-1}
             return {name: key,value: item[key]};
         });
     }
-    getDATA(trackname){
+    getGInfoCheckUIString(trackname){
         let DATA = [];
-        
+
         let temp = this.getGraduationInfoUIstring(trackname);
         if (temp !== "no track"){DATA.push({title: '졸업 요건',data: temp});}
 
