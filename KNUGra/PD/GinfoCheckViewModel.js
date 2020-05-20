@@ -46,7 +46,7 @@ export default class GInfoCheckViewModel {
         if (info_arr === undefined) return "no track";
         return info_arr.map(function(item){
             let key = Object.keys(item)[0];
-            if (key === undefined) return {name:'-',value:-1}
+            if (key === undefined) return {name:'-'}
             return {name: key,value: item[key]};
         });
     }
@@ -59,12 +59,36 @@ export default class GInfoCheckViewModel {
         temp = this.getRequiredUIstring(trackname);
         if (temp !== "no track"){DATA.push({title: '필수 교과목',data: temp});}
 
-        DATA.push({title: '설계 교과목',data: this.getDesignUIstring()});
-        DATA.push({title: '창업 교과목',data: this.getStartupUIstring()});
+        if (trackname === "심화컴퓨터전공(ABEEK)")
+            DATA.push({title: '설계 교과목',data: this.getDesignUIstring()});
+
+        if(trackname === "글로벌소프트웨어전공(다중전공트랙)"||trackname==="글로벌소프트웨어전공(해외복수학위트랙)")
+            DATA.push({title: '창업 교과목',data: this.getStartupUIstring()});
 
         temp = this.getRecommendedUIstring(trackname);
-        if (temp !== "no track"){DATA.push({title: '권장 교과목',data: temp});}
+        if (temp !== "no track"){
+            DATA.push({title: '연계 전공',data: temp});
+            temp = Database.getRequiredSubjectLists()["연계전공공통교육과정"].map(function(item){
+                if (item["교과목명"] === undefined){
+                    return {name: '-'};
+                }
+                return {name: item["교과목명"]};
+            });
+            DATA.push({title: 'SW전공', data: temp})
+            temp = Database.getRequiredSubjectLists()["연계전공교양교육과정"].map(function(item){
+                if (item["교과목명"] === undefined){
+                    return {name: '-'};
+                }
+                return {name: item["교과목명"]};
+            });
+            DATA.push({title: 'SW교양', data: temp})
+        }
+
 
         return DATA;
     }
+
+
+
+
 }
