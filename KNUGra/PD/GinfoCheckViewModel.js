@@ -1,29 +1,5 @@
 import Database from '../DM/Database';
 
-var DATA = [
-    {
-        title: '졸업 요건',
-        data: [{name: '-',value:-1}]
-    },
-    {
-        title: '필수 교과목',
-        data: [{name: '+'}]
-    },
-    {
-        title: '설계 교과목',
-        data: [{name: '='}]
-    },
-    {
-        title: '창업 교과목',
-        data: [{name: '/'}]
-    },
-    {
-        title: '추천 교과목',
-        data: [{name: '%'}]
-    }
-
-];
-
 export default class GInfoCheckViewModel {
     
     getDesignUIstring(){
@@ -37,7 +13,7 @@ export default class GInfoCheckViewModel {
     getRequiredUIstring(trackname){
         let info_arr = Database.getRequiredSubjectLists();
         info_arr = info_arr[trackname];
-        if (info_arr === undefined) return [{name: '-'}];
+        if (info_arr === undefined) return ["no track"];
         return info_arr.map(function(item){
             if (item["교과목명"] === undefined){
                 return {name: '-'};
@@ -45,7 +21,7 @@ export default class GInfoCheckViewModel {
             return {name: item["교과목명"]};
         }) ;
     }
-    getStartupUIstring(trackname){
+    getStartupUIstring(){
         return Database.getStartupSubjectList().map(function(item){
             if (item["교과목명"] === undefined){
                 return {name: '/'};
@@ -56,7 +32,7 @@ export default class GInfoCheckViewModel {
     getRecommendedUIstring(trackname){
         let info_arr = Database.getRecommendedSubjectLists();
         info_arr = info_arr[trackname];
-        if (info_arr === undefined) return [{name: '%'}];
+        if (info_arr === undefined) return ["no track"];
         return info_arr.map(function(item){
             if (item["교과목명"] === undefined){
                 return {name: '%'};
@@ -67,7 +43,7 @@ export default class GInfoCheckViewModel {
     getGraduationInfoUIstring(trackname){
         let info_arr = Database.getGraduationInfoLists();//왜??? 왜 얘만?? 선언해야되????
         info_arr = info_arr[trackname];
-        if (info_arr === undefined) return [{name: '-'}];
+        if (info_arr === undefined) return ["no track"];
         return info_arr.map(function(item){
             let key = Object.keys(item)[0];
             if (key === undefined) return {name:'-',value:-1}
@@ -75,11 +51,20 @@ export default class GInfoCheckViewModel {
         });
     }
     getDATA(trackname){
-        DATA[DATA.map(x => x.title).indexOf('졸업 요건')].data = this.getGraduationInfoUIstring(trackname);
-        DATA[DATA.map(x => x.title).indexOf('필수 교과목')].data = this.getRequiredUIstring(trackname);
-        DATA[DATA.map(x => x.title).indexOf('설계 교과목')].data = this.getDesignUIstring();
-        DATA[DATA.map(x => x.title).indexOf('창업 교과목')].data = this.getStartupUIstring();
-        DATA[DATA.map(x => x.title).indexOf('추천 교과목')].data = this.getRecommendedUIstring(trackname);
+        let DATA = [];
+        
+        let temp = this.getGraduationInfoUIstring(trackname);
+        if (temp !== "no track"){DATA.push({title: '졸업 요건',data: temp});}
+
+        temp = this.getRequiredUIstring(trackname);
+        if (temp !== "no track"){DATA.push({title: '필수 교과목',data: temp});}
+
+        DATA.push({title: '설계 교과목',data: this.getDesignUIstring()});
+        DATA.push({title: '창업 교과목',data: this.getStartupUIstring()});
+
+        temp = this.getRecommendedUIstring(trackname);
+        if (temp !== "no track"){DATA.push({title: '권장 교과목',data: temp});}
+
         return DATA;
     }
 }
