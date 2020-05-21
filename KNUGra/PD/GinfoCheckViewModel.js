@@ -26,12 +26,16 @@ export default class GInfoCheckViewModel {
         DAPATH.GLOBAL_SOFTWARE_MASTERS_CHAINING,DAPATH.FINTECH,DAPATH.BIGDATA,DAPATH.MEDIAART,DAPATH.CONSTRUCTION_IT];
 
     getDesignUIstring(trackname){
-        let temp =  Database.getDesignSubjectList().map(function(item){
+        return getUIstring(1,Database.getDesignSubjectList(),DAPATH.GRAINFO_DESIGN);
+    }
+    getStartupUIstring(trackname){
+        return getUIstring(1,Database.getStartupSubjectList(),DAPATH.GRAINFO_STARTUP);
+        let temp = Database.getStartupSubjectList().map(function(item){
             if (item[DAPATH.SUBJECT_NAME] !== undefined)
                 return {name: item[DAPATH.SUBJECT_NAME]};
         }) ;
 
-        return{title: DAPATH.GRAINFO_DESIGN,data: temp};
+        return{title: DAPATH.GRAINFO_STARTUP,data: temp};
     }
     getRequiredUIstring(trackname){
         let info_arr = Database.getRequiredSubjectLists();
@@ -43,14 +47,6 @@ export default class GInfoCheckViewModel {
         }) ;
 
         return{title: DAPATH.GRAINFO_REQUIRED,data: temp};
-    }
-    getStartupUIstring(trackname){
-        let temp = Database.getStartupSubjectList().map(function(item){
-            if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                return {name: item[DAPATH.SUBJECT_NAME]};
-        }) ;
-
-        return{title: DAPATH.GRAINFO_STARTUP,data: temp};
     }
     getRecommendedUIstring(trackname){
         let info_arr = Database.getRecommendedSubjectLists();
@@ -74,25 +70,11 @@ export default class GInfoCheckViewModel {
 
         return{title: DAPATH.GRAINFO_GRADUATION,data: temp};
     }
-    getSWcommonUIstring(trackname){
-        let info_arr = Database.getRequiredSubjectLists()[DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR]
-        if (info_arr === undefined) return NO_TRACK
-        let temp = info_arr.map(function(item){
-            if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                return {name: item[DAPATH.SUBJECT_NAME]};
-        });
-
-        return{title: DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR,data: temp};
-    }
     getSWgeneralUIstring(trackname){
-        let info_arr = Database.getRequiredSubjectLists()[DAPATH.SOFTWARE_COMBINED_GENERAL]
-        if (info_arr === undefined) return NO_TRACK
-        let temp = info_arr.map(function(item){
-            if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                return {name: item[DAPATH.SUBJECT_NAME]};
-        });
-
-        return{title: DAPATH.SOFTWARE_COMBINED_GENERAL,data: temp};
+        return getSW(DAPATH.SOFTWARE_COMBINED_GENERAL);
+    }
+    getSWcommonUIstring(trackname){
+       return getSW(DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
     }
 
     getGInfoCheckUIstring(trackname){
@@ -105,4 +87,28 @@ export default class GInfoCheckViewModel {
         });
         return DATA;
     }
+}
+
+function getSW(info){
+    let info_arr = Database.getRequiredSubjectLists()[info]
+    if (info_arr === undefined) return NO_TRACK
+    let temp = info_arr.map(function(item){
+        if (item[DAPATH.SUBJECT_NAME] !== undefined)
+            return {name: item[DAPATH.SUBJECT_NAME]};
+    });
+
+    return {title: info,data: temp};
+}
+
+function getUIstring(num,info,path){
+    switch(num){
+        case 1: //need list,path
+            let temp =  info.map(function(item){
+            if (item[DAPATH.SUBJECT_NAME] !== undefined)
+                return {name: item[DAPATH.SUBJECT_NAME]};
+        }) ;
+        return{title: path,data: temp};
+    }
+    
+
 }
