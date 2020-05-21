@@ -5,110 +5,91 @@ const NO_TRACK = "no track";
 
 export default class GInfoCheckViewModel {
     INFO_LIST = {
-        0 : //COMPUTPER_ABEEK
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,this.getDesignUIstring],
-        1 : //GLOBAL_SOFTWARE_DOUBLE_MAJOR
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,this.getStartupUIstring],
-        2 : //GLOBAL_SOFTWARE_OVERSEAS_UNIV
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,this.getStartupUIstring],
-        3 : //GLOBAL_SOFTWARE_MASTERS_CHAINING 
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,],
-        4 : //FINTECH 
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,this.getRecommendedUIstring,this.getSWcommonUIstring,this.getSWgeneralUIstring], 
-        5 : //BIGDATA 
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,this.getRecommendedUIstring,this.getSWcommonUIstring,this.getSWgeneralUIstring],
-        6 : //MEDIAART
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,this.getRecommendedUIstring,this.getSWcommonUIstring,this.getSWgeneralUIstring], 
-        7 : //CONSTRUCTION_IT
-            [this.getGraduationInfoUIstring,this.getRequiredUIstring,this.getRecommendedUIstring,this.getSWcommonUIstring,this.getSWgeneralUIstring],
+        0: //COMPUTPER_ABEEK
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getDesignUIstring],
+        1: //GLOBAL_SOFTWARE_DOUBLE_MAJOR
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getStartupUIstring],
+        2: //GLOBAL_SOFTWARE_OVERSEAS_UNIV
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getStartupUIstring],
+        3: //GLOBAL_SOFTWARE_MASTERS_CHAINING 
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring,],
+        4: //FINTECH 
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
+        5: //BIGDATA 
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
+        6: //MEDIAART
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
+        7: //CONSTRUCTION_IT
+            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
     }
-    track_list = [DAPATH.COMPUTPER_ABEEK,DAPATH.GLOBAL_SOFTWARE_DOUBLE_MAJOR,DAPATH.GLOBAL_SOFTWARE_OVERSEAS_UNIV,
-        DAPATH.GLOBAL_SOFTWARE_MASTERS_CHAINING,DAPATH.FINTECH,DAPATH.BIGDATA,DAPATH.MEDIAART,DAPATH.CONSTRUCTION_IT];
+    track_list = [DAPATH.COMPUTPER_ABEEK, DAPATH.GLOBAL_SOFTWARE_DOUBLE_MAJOR, DAPATH.GLOBAL_SOFTWARE_OVERSEAS_UNIV,
+    DAPATH.GLOBAL_SOFTWARE_MASTERS_CHAINING, DAPATH.FINTECH, DAPATH.BIGDATA, DAPATH.MEDIAART, DAPATH.CONSTRUCTION_IT];
 
-    getDesignUIstring(trackname){
-        return getUIstring(1,Database.getDesignSubjectList(),DAPATH.GRAINFO_DESIGN);
+    getDesignUIstring(trackname) {
+        return getUIstring(1, trackname, Database.getDesignSubjectList(), DAPATH.GRAINFO_DESIGN);
     }
-    getStartupUIstring(trackname){
-        return getUIstring(1,Database.getStartupSubjectList(),DAPATH.GRAINFO_STARTUP);
-        let temp = Database.getStartupSubjectList().map(function(item){
-            if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                return {name: item[DAPATH.SUBJECT_NAME]};
-        }) ;
-
-        return{title: DAPATH.GRAINFO_STARTUP,data: temp};
+    getStartupUIstring(trackname) {
+        return getUIstring(1, trackname, Database.getStartupSubjectList(), DAPATH.GRAINFO_STARTUP);
     }
-    getRequiredUIstring(trackname){
-        let info_arr = Database.getRequiredSubjectLists();
-        info_arr = info_arr[trackname];
-        if (info_arr === undefined) return NO_TRACK;
-        let temp = info_arr.map(function(item){
-            if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                return {name: item[DAPATH.SUBJECT_NAME]};
-        }) ;
-
-        return{title: DAPATH.GRAINFO_REQUIRED,data: temp};
+    getRequiredUIstring(trackname) {
+        return getUIstring(0, trackname, Database.getRequiredSubjectLists(), DAPATH.GRAINFO_REQUIRED);
     }
-    getRecommendedUIstring(trackname){
-        let info_arr = Database.getRecommendedSubjectLists();
-        info_arr = info_arr[trackname];
-        if (info_arr === undefined) return NO_TRACK;
-        let temp =  info_arr.map(function(item){
-            if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                return {name: item[DAPATH.SUBJECT_NAME]};
-        }) ;
-
-        return{title: DAPATH.GRAINFO_COMBINED,data: temp};
+    getRecommendedUIstring(trackname) {
+        return getUIstring(0, trackname, Database.getRecommendedSubjectLists(), DAPATH.GRAINFO_COMBINED);
     }
-    getGraduationInfoUIstring(trackname){
-        let info_arr = Database.getGraduationInfoLists();
-        info_arr = info_arr[trackname];
-        if (info_arr === undefined) return NO_TRACK;
-        let temp = info_arr.map(function(item){
-            let key = Object.keys(item)[0];
-            if (key !== undefined) return {name: key,value: item[key]};
-        });
-
-        return{title: DAPATH.GRAINFO_GRADUATION,data: temp};
+    getGraduationInfoUIstring(trackname) {
+        return getUIstring(-1, trackname, Database.getGraduationInfoLists(), DAPATH.GRAINFO_GRADUATION);
     }
-    getSWgeneralUIstring(trackname){
-        return getSW(DAPATH.SOFTWARE_COMBINED_GENERAL);
+    getSWgeneralUIstring(trackname) {
+        return getSW(Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_GENERAL);
     }
-    getSWcommonUIstring(trackname){
-       return getSW(DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
+    getSWcommonUIstring(trackname) {
+        return getSW(Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
     }
 
-    getGInfoCheckUIstring(trackname){
+    getGInfoCheckUIstring(trackname) {
         let DATA = [];
-        
-        this.INFO_LIST[this.track_list.indexOf(trackname)].map(function(func){
+
+        this.INFO_LIST[this.track_list.indexOf(trackname)].map(function (func) {
             console.log(func);
             let temp = func(trackname);
-            if (temp !== NO_TRACK){DATA.push(temp);}
+            if (temp !== NO_TRACK) { DATA.push(temp); }
         });
         return DATA;
     }
 }
 
-function getSW(info){
-    let info_arr = Database.getRequiredSubjectLists()[info]
+function getSW(info, path) {
+    let info_arr = info[path];
     if (info_arr === undefined) return NO_TRACK
-    let temp = info_arr.map(function(item){
+    let temp = info_arr.map(function (item) {
         if (item[DAPATH.SUBJECT_NAME] !== undefined)
-            return {name: item[DAPATH.SUBJECT_NAME]};
+            return { name: item[DAPATH.SUBJECT_NAME] };
     });
 
-    return {title: info,data: temp};
+    return { title: path, data: temp };
 }
 
-function getUIstring(num,info,path){
-    switch(num){
-        case 1: //need list,path
-            let temp =  info.map(function(item){
-            if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                return {name: item[DAPATH.SUBJECT_NAME]};
-        }) ;
-        return{title: path,data: temp};
+function getUIstring(num, trackname, info, path) {
+    switch (num) {
+        case -1:   
+        case 0:
+            info = info[trackname];
+            if (info === undefined) return NO_TRACK;
+        case 1: //need list,path       
+            let temp = info.map(function (item) {
+                if (num == -1) {
+                    let key = Object.keys(item)[0];
+                    if (key !== undefined) return { name: key, value: item[key] };
+                } else {
+                    if (item[DAPATH.SUBJECT_NAME] !== undefined) return { name: item[DAPATH.SUBJECT_NAME] };
+                }
+            });
+            return { title: path, data: temp };
+
+
+
     }
-    
+
 
 }
