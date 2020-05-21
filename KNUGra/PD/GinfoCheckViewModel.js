@@ -28,23 +28,29 @@ export default class GInfoCheckViewModel {
     getDesignUIstring(trackname) {
         return getUIstring(1, trackname, Database.getDesignSubjectList(), DAPATH.GRAINFO_DESIGN);
     }
+
     getStartupUIstring(trackname) {
         return getUIstring(1, trackname, Database.getStartupSubjectList(), DAPATH.GRAINFO_STARTUP);
     }
+
     getRequiredUIstring(trackname) {
         return getUIstring(0, trackname, Database.getRequiredSubjectLists(), DAPATH.GRAINFO_REQUIRED);
     }
+
     getRecommendedUIstring(trackname) {
         return getUIstring(0, trackname, Database.getRecommendedSubjectLists(), DAPATH.GRAINFO_COMBINED);
     }
+
     getGraduationInfoUIstring(trackname) {
         return getUIstring(-1, trackname, Database.getGraduationInfoLists(), DAPATH.GRAINFO_GRADUATION);
     }
+
     getSWgeneralUIstring(trackname) {
-        return getSW(Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_GENERAL);
+        return getUIstring(2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_GENERAL);
     }
+
     getSWcommonUIstring(trackname) {
-        return getSW(Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
+        return getUIstring(2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
     }
 
     getGInfoCheckUIstring(trackname) {
@@ -59,24 +65,13 @@ export default class GInfoCheckViewModel {
     }
 }
 
-function getSW(info, path) {
-    let info_arr = info[path];
-    if (info_arr === undefined) return NO_TRACK
-    let temp = info_arr.map(function (item) {
-        if (item[DAPATH.SUBJECT_NAME] !== undefined)
-            return { name: item[DAPATH.SUBJECT_NAME] };
-    });
-
-    return { title: path, data: temp };
-}
-
 function getUIstring(num, trackname, info, path) {
     switch (num) {
-        case -1:   
-        case 0:
+        case -1: // graduationinfo
+        case 0: //required, recommended
             info = info[trackname];
             if (info === undefined) return NO_TRACK;
-        case 1: //need list,path       
+        case 1: //Design, StartUp      
             let temp = info.map(function (item) {
                 if (num == -1) {
                     let key = Object.keys(item)[0];
@@ -87,8 +82,14 @@ function getUIstring(num, trackname, info, path) {
             });
             return { title: path, data: temp };
 
-
-
+        case 2: // SW
+            let info_arr = info[path];
+            if (info_arr === undefined) return NO_TRACK
+            let temp2 = info_arr.map(function (item) {
+                if (item[DAPATH.SUBJECT_NAME] !== undefined)
+                    return { name: item[DAPATH.SUBJECT_NAME] };
+            });
+            return { title: path, data: temp2 };
     }
 
 
