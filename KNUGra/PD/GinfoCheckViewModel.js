@@ -46,11 +46,11 @@ export default class GInfoCheckViewModel {
     }
 
     getSWgeneralUIstring(trackname) {
-        return getUIstring(2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_GENERAL);
+        return getUIstring(-2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_GENERAL);
     }
 
     getSWcommonUIstring(trackname) {
-        return getUIstring(2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
+        return getUIstring(-2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
     }
 
     getGInfoCheckUIstring(trackname) {
@@ -67,13 +67,18 @@ export default class GInfoCheckViewModel {
 
 function getUIstring(num, trackname, info, path) {
     switch (num) {
+        
+        case -2:info = info[path]; //SW
+        
         case -1: // graduationinfo
+
         case 0: //required, recommended
-            info = info[trackname];
+            if (num !== -2) info = info[trackname];
             if (info === undefined) return NO_TRACK;
+
         case 1: //Design, StartUp      
             let temp = info.map(function (item) {
-                if (num == -1) {
+                if (num === -1) { // graduationinfo
                     let key = Object.keys(item)[0];
                     if (key !== undefined) return { name: key, value: item[key] };
                 } else {
@@ -81,16 +86,5 @@ function getUIstring(num, trackname, info, path) {
                 }
             });
             return { title: path, data: temp };
-
-        case 2: // SW
-            let info_arr = info[path];
-            if (info_arr === undefined) return NO_TRACK
-            let temp2 = info_arr.map(function (item) {
-                if (item[DAPATH.SUBJECT_NAME] !== undefined)
-                    return { name: item[DAPATH.SUBJECT_NAME] };
-            });
-            return { title: path, data: temp2 };
     }
-
-
 }
