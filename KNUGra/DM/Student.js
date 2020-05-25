@@ -1,15 +1,23 @@
 
-export default function Student() {
-    this.careerList = null;
-    this.completedSubjectList = null;
+export default class Student {
+    #careerList;
+    #completedSubjectList;
+
+    constructor() {
+        this.#careerList = null;
+        this.#completedSubjectList = null;
+    }
     
-    this.getStudent = function() {
-        return this;
+    getCareerList = function() {
+        return this.#careerList;
     }
-    this.setCareerList = function(careerList) {
-        this.careerList = careerList;
+    setCareerList = function(json) {
+        this.#careerList = json;
     }
-    this.setCompletedSubjectList = function(completedSubjectList){
-        this.completedSubjectList = completedSubjectList;
+    getCompletedSubjectList = function() {
+        return this.#completedSubjectList;
+    }
+    setCompletedSubjectList = function(json) {
+        this.#completedSubjectList = json;
     }
 }

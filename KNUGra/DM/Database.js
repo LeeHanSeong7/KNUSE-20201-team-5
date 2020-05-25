@@ -11,6 +11,8 @@ let requiredSubjectList = null;
 let startupSubjectList = null;
 let recommendedSubjectList = null;
 let graduationInfoLists = null;
+let user = new User();
+let serverConnect = new ServerConnect();
 
 const loadDesignSubjectList = () => {
     designSubjectList = DesignSubjectListJSON;
@@ -29,9 +31,6 @@ const loadGraduationInfoLists = () => {
 };
 
 const Database =  {
-    user : new User(null),
-    serverConnect : new ServerConnect(),
-
     load : () => {
         loadDesignSubjectList();
         loadRequiredSubjectLists();
@@ -55,6 +54,15 @@ const Database =  {
     getGraduationInfoLists: () => {
         return graduationInfoLists;
     },
+    login : function(id,pw,major) {
+        return serverConnect.login(id,pw,major);
+    },
+    getStudent : function(){
+        return user.getStudent();
+    },
+    update : function(){
+        serverConnect.updateStudent();
+    }
 }
 
 Object.freeze(Database);

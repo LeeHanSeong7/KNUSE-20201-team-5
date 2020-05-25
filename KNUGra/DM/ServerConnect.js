@@ -1,18 +1,21 @@
-const getDataFromServer = function(id , pw, major, requesttype){
+import Database from "./Database";
 
-}
+export default class ServerConnect {
+    #hostIP;
 
-export default function ServerConnect() {
-    this.hostIP = null;
+    constructor(){
+        this.#hostIP = null;
+    }
+    #getDataFromServer(id , pw, major, requesttype){
 
-    this.login = function(id, pw, major) {
-        
+    }
+    login(id, pw, major) {
         return true;
     }
-    this.logout = function(id) {
+    logout(id) {
         
     }
-    this.updateStudent = function(id, major){
-
+    updateStudent(id, major){
+        
     }
 }

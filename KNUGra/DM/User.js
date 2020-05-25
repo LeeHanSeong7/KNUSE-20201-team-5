@@ -1,6 +1,20 @@
 import Student from './Student.js'
 
-export default function User(id) {
-    this.id = id;
-    this.student = new Student();
+export default class User {
+    #id;
+    #student;
+
+    constructor(){
+        this.#id = null;
+        this.#student = new Student();
+    }
+    getId() {
+        return this.#id;
+    }
+    setId(input) {
+        this.#id = input;
+    }
+    getStudent() {
+        return this.#student;
+    }
 };
