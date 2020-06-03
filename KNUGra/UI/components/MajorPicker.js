@@ -9,8 +9,6 @@ export default function MajorPicker({ selectedPickerValue, setSelectedPickerValu
     const options = [ 
         "취소", ...allMajors,
     ];
-    
-    console.log(options);
 
     if (true && Platform.OS === 'ios') {
         const onPress = () => {
