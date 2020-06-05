@@ -1,5 +1,6 @@
 import Database from '../DM/Database';
 import DAPATH from '../DM/DAPATH';
+import { detailList } from '../DM/DAPATH';
 import Student from '../DM/Student';
 
 const NO_TRACK = "no track";
@@ -51,45 +52,43 @@ export default class RemainManageViewModel {
         
         //temp 에 총합 추가해야함
         temp2 = this.getGraduationInfoUIstring(trackname).filter(function(item){
-            console.log(item.name);
-            return (DAPATH.detailList.indexof(item.name) !== -1);
+                return (detailList.indexOf(item.name) == -1);
         });
         temp2.map(function(item){
-            let data = item;
-            let key = Object.keys(item)[0];
-            let stuV = carrylist[key];
+            const subj = item.name;
+            let stuV = carrylist[subj];
 
             if (stuV == undefined){//학생이 관련정보가 없을때
                 if (Number.isInteger(item.value)){//숫자정보 일때
-                    data.value = `-/${item.value}`;
-                    data.progress = 0;
+                    item.value = `-/${item.value}`;
+                    item.progress = 0;
                 }
-                else if (key in stustat){//문자정보일때 처리방식이 정의되어 있음
-                    data.value = `정보없음`;
-                    data.progress = 0;
+                else if (subj in stustat){//문자정보일때 처리방식이 정의되어 있음
+                    item.value = `정보없음`;
+                    item.progress = 0;
                 }
                 else 
                     return;
             }
             else{
                 if (Number.isInteger(item.value)){//숫자정보 일때
-                    data.value = `${stuV}/${item.value}`;
-                    data.progress = floor((stuV*100)/item.value)/100;
+                    item.progress = Math.floor((stuV*100)/item.value)/100;
+                    if (item.progress > 1) item.progress = 1;
+                    item.value = `${stuV}/${item.value}`;
                 }
-                else if (key in stustat){//문자정보일때 처리방식이 정의되어 있음
-                    data.value = `${stuV}`;
-                    if (stuV == stustat[key][1])
-                        data.progress = 1;
+                else if (subj in stustat){//문자정보일때 처리방식이 정의되어 있음
+                    item.value = `${stuV}`;
+                    if (stuV == stustat[subj][1])
+                        item.progress = 1;
                     else   
-                        data.progress = 0;
+                        item.progress = 0;
                 }
                 else 
                     return;
             }
-            temp.push(data);
+            temp.push(item);
         });
 
-        console.log("1");
         //
 
         DATA.push({title : '졸업요건 달성현황', data : temp});

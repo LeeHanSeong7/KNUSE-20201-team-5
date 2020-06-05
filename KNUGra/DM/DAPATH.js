@@ -41,9 +41,12 @@ const DAPATH = {
     GRAINFO_GENERAL :"SW교양",
     GRAINFO_COMBINED :"연계전공",
 
+    //graduationInfoLists
+    LIST_DESIGN : "설계과목",
+
 }
 export const detailList = [
-    DAPATH.GRAINFO_DESIGN,
+    DAPATH.LIST_DESIGN,
     DAPATH.GRAINFO_REQUIRED,
     DAPATH.GRAINFO_STARTUP,
     DAPATH.GRAINFO_COMBINED,
