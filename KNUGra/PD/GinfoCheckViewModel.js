@@ -1,13 +1,8 @@
 import Database from '../DM/Database';
 import DAPATH from '../DM/DAPATH';
-import requiredSubjectList from '../DM/jsonfiles/requiredSubjectList';
-import designSubjectList from '../DM/jsonfiles/designSubjectList';
 import Student from '../DM/Student';
-import startupSubjectList from '../DM/jsonfiles/startupSubjectList';
-import recommendedSubjectList from '../DM/jsonfiles/recommendedSubjectList';
 
 const NO_TRACK = "no track";
-let student = new Student
 export default class GInfoCheckViewModel {
     INFO_LIST = {
         0: //COMPUTPER_ABEEK
@@ -66,7 +61,6 @@ export default class GInfoCheckViewModel {
             let temp = func(trackname);
             if (temp !== NO_TRACK) { DATA.push(temp); }
         });
-        getList();
         return DATA;
     }
 }
@@ -93,42 +87,4 @@ function getUIstring(num, trackname, info, path) {
             });
             return { title: path, data: temp };
     }
-}
-
-function getList(){
-    let tname = "건설IT전공"
-    let data = [];
-    switch (tname){
-        case "심화컴퓨터전공(ABEEK)": 
-            data.push(getListData(requiredSubjectList[tname])); data.push(getListData(designSubjectList)); console.log(data);return data;
-        case "글로벌소프트웨어전공(다중전공트랙)":
-        case "글로벌소프트웨어전공(해외복수학위트랙)":
-        case "글로벌소프트웨어전공(학석사연계트랙)":
-            data.push(getListData(requiredSubjectList[tname])); data.push(getListData(startupSubjectList)); console.log(data);return data;
-        case "핀테크전공":
-        case "빅데이터전공":
-        case "미디어아트":
-        case "건설IT전공":
-            data.push(getListData(requiredSubjectList["연계전공공통교육과정"])); 
-            data.push(getListData(requiredSubjectList["연계전공교양교육과정"])); 
-            data.push(getListData(recommendedSubjectList[tname])); console.log(data);return data;
-    }
-    
-
-    
-    
-}
-
-function getListData(subjectList) {
-    let data = {};
-    let stuPerformed = student.getCompletedSubjectList();
-    for (var i=0; i<Object.keys(subjectList).length; i++){
-        data[subjectList[i]["교과목명"]] = 'X'
-        for (var j=0; j<Object.keys(stuPerformed).length; j++){
-            if (subjectList[i]["교과목명"] === stuPerformed[j]["교과목명"] ) {
-                data[subjectList[i]["교과목명"]] = 'O'
-            }
-        }
-    }
-    return data;
 }

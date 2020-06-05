@@ -3,6 +3,10 @@ import DAPATH from '../DM/DAPATH';
 import { detailList } from '../DM/DAPATH';
 import Student from '../DM/Student';
 
+import requiredSubjectList from '../DM/jsonfiles/requiredSubjectList';
+import designSubjectList from '../DM/jsonfiles/designSubjectList';
+import startupSubjectList from '../DM/jsonfiles/startupSubjectList';
+import recommendedSubjectList from '../DM/jsonfiles/recommendedSubjectList';
 const NO_TRACK = "no track";
 let student = new Student
 
@@ -95,9 +99,11 @@ export default class RemainManageViewModel {
         });
         arr1.map(progressMapping);
         arr2.map(progressMapping);
+        temp.push({list:getList(trackname)})
+        console.log(temp)
 
         DATA.push({title : '졸업요건 달성현황', data : temp});
-        console.log(DATA);
+        getList();
         return DATA;
     }
 }
@@ -124,4 +130,44 @@ function getUIstring(num, trackname, info, path) {
             });
         return temp;
     }
+}
+
+
+function getList(tname){
+    let data = [];
+    switch (tname){
+        case "심화컴퓨터전공(ABEEK)": 
+            data.push({title : "필수과목",data : getListData(requiredSubjectList[tname])}); 
+            data.push({title : "설계과목",data : getListData(designSubjectList)}); return data;
+        case "글로벌소프트웨어전공(다중전공트랙)":
+        case "글로벌소프트웨어전공(해외복수학위트랙)":
+        case "글로벌소프트웨어전공(학석사연계트랙)":
+            data.push({title:"필수과목",data : getListData(requiredSubjectList[tname])}); 
+            data.push({title:"창업역량",data: getListData(startupSubjectList)}); return data;
+        case "핀테크전공":
+        case "빅데이터전공":
+        case "미디어아트":
+        case "건설IT전공":
+            data.push({title:"SW필수",data:getListData(requiredSubjectList["연계전공공통교육과정"])}); 
+            data.push({title:"SW교양",data:getListData(requiredSubjectList["연계전공교양교육과정"])}); 
+            data.push({title:"연계전공",data:getListData(recommendedSubjectList[tname])}); return data;
+    }
+    
+
+    
+    
+}
+
+function getListData(subjectList) {
+    let data = [];
+    let stuPerformed = student.getCompletedSubjectList();
+    for (var i=0; i<Object.keys(subjectList).length; i++){
+       data.push({title : subjectList[i]["교과목명"] , value : 'X'});
+        for (var j=0; j<Object.keys(stuPerformed).length; j++){
+            if (subjectList[i]["교과목명"] === stuPerformed[j]["교과목명"] ) {
+                data[i]["value"] = "O"
+            }
+        }
+    }
+    return data;
 }
