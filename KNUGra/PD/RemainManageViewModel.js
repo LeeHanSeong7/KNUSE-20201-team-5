@@ -5,28 +5,7 @@ import Student from '../DM/Student';
 const NO_TRACK = "no track";
 let student = new Student
 
-export default class GInfoCheckViewModel {
-    INFO_LIST = {
-        0: //COMPUTPER_ABEEK
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getDesignUIstring],
-        1: //GLOBAL_SOFTWARE_DOUBLE_MAJOR
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getStartupUIstring],
-        2: //GLOBAL_SOFTWARE_OVERSEAS_UNIV
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getStartupUIstring],
-        3: //GLOBAL_SOFTWARE_MASTERS_CHAINING 
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring,],
-        4: //FINTECH 
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
-        5: //BIGDATA 
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
-        6: //MEDIAART
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
-        7: //CONSTRUCTION_IT
-            [this.getGraduationInfoUIstring, this.getRequiredUIstring, this.getRecommendedUIstring, this.getSWcommonUIstring, this.getSWgeneralUIstring],
-    }
-    track_list = [DAPATH.COMPUTPER_ABEEK, DAPATH.GLOBAL_SOFTWARE_DOUBLE_MAJOR, DAPATH.GLOBAL_SOFTWARE_OVERSEAS_UNIV,
-    DAPATH.GLOBAL_SOFTWARE_MASTERS_CHAINING, DAPATH.FINTECH, DAPATH.BIGDATA, DAPATH.MEDIAART, DAPATH.CONSTRUCTION_IT];
-
+export default class RemainManageViewModel {
     getDesignUIstring(trackname) {
         return getUIstring(1, trackname, Database.getDesignSubjectList(), DAPATH.GRAINFO_DESIGN);
     }
@@ -55,20 +34,23 @@ export default class GInfoCheckViewModel {
         return getUIstring(-2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
     }
 
-    getGInfoCheckUIstring(trackname) {
+    getManageRemainUIstring(trackname) {
         let DATA = [];
-
-        this.INFO_LIST[this.track_list.indexOf(trackname)].map(function (func) {
-            console.log(func);
-            let temp = func(trackname);
-            if (temp !== NO_TRACK) { DATA.push(temp); }
+        let temp = [];
+        //temp 에 총합 추가해야함
+        temp = getGraduationInfoUIstring(trackname).map(function(item){
+            let data = item;
+            return data;
         });
-        console.log(DATA)
+
+        //
+
+        DATA.push({title : '졸업요건 달성현황', data : temp});
         return DATA;
     }
 }
 
-function getManageRemainUIstring(num, trackname, info, path) {
+function getUIstring(num, trackname, info, path) {
     switch (num) {
         
         case -2:info = info[path]; //SW
@@ -88,6 +70,6 @@ function getManageRemainUIstring(num, trackname, info, path) {
                     if (item[DAPATH.SUBJECT_NAME] !== undefined) return { name: item[DAPATH.SUBJECT_NAME] };
                 }
             });
-            return { title: path, data: temp };
+        return temp;
     }
 }
