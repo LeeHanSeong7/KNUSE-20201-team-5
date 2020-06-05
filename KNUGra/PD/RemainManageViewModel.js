@@ -6,7 +6,7 @@ import Student from '../DM/Student';
 const NO_TRACK = "no track";
 let student = new Student
 
-//성공여부 키워드
+//문자정보 처리방식
 let stustat = {}
 stustat[DAPATH.GRAINFO_ENGLISH] = ["fail","pass"];
 //-----//
@@ -42,22 +42,14 @@ export default class RemainManageViewModel {
 
     getManageRemainUIstring(trackname) {
         let DATA = [];
-        let temp = [];let temp2 = [];
+        let temp = [];let arr1 = []; let arr2 = [];
+        let d_list = [];
         let carrylist = {};
 
-        student.getCareerList().map(function(item){
-            let key = Object.keys(item)[0];
-            carrylist[key]=item[key];
-        });
-        
-        //temp 에 총합 추가해야함
-        temp2 = this.getGraduationInfoUIstring(trackname).filter(function(item){
-                return (detailList.indexOf(item.name) == -1);
-        });
-        temp2.map(function(item){
+        function progressMapping(item){
             const subj = item.name;
             let stuV = carrylist[subj];
-
+        
             if (stuV == undefined){//학생이 관련정보가 없을때
                 if (Number.isInteger(item.value)){//숫자정보 일때
                     item.value = `-/${item.value}`;
@@ -87,9 +79,22 @@ export default class RemainManageViewModel {
                     return;
             }
             temp.push(item);
-        });
+        }
 
-        //
+        student.getCareerList().map(function(item){
+            let key = Object.keys(item)[0];
+            carrylist[key]=item[key];
+        });
+        
+        //temp 에 총합 추가해야함
+        this.getGraduationInfoUIstring(trackname).map(function(item){
+                if (detailList.indexOf(item.name) == -1)
+                    arr1.push(item);
+                else 
+                    arr2.push(item);
+        });
+        arr1.map(progressMapping);
+        arr2.map(progressMapping);
 
         DATA.push({title : '졸업요건 달성현황', data : temp});
         console.log(DATA);
