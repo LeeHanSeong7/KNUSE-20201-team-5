@@ -10,7 +10,7 @@ export default function ManageRemain() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
 
     const manageRemainViewModel = new ManageRemainViewModel();
-
+    manageRemainViewModel.getManageRemainUIstring('심화컴퓨터전공(ABEEK)');
     return (
         <View style={styles.container}>
             <View style={styles.pickerArea}>
