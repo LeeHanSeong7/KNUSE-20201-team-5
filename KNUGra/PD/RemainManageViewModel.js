@@ -34,7 +34,7 @@ export default class RemainManageViewModel {
     }
 
     getGraduationInfoUIstring(trackname) {
-        return getUIstring(-1, trackname, Database.getGraduationInfoLists(), DAPATH.GRAINFO_GRADUATION);
+        return getUIstring(-1, trackname, graduationInfoLists[trackname], DAPATH.GRAINFO_GRADUATION);
     }
 
     getSWgeneralUIstring(trackname) {
@@ -113,8 +113,7 @@ function getUIstring(num, trackname, info, path) {
         
         case -2:info = info[path]; //SW
         
-        case -1: // graduationinfo
-
+        
         case 0: //required, recommended
             if (num !== -2) info = info[trackname];
             if (info === undefined) return NO_TRACK;
@@ -129,6 +128,12 @@ function getUIstring(num, trackname, info, path) {
                 }
             });
         return temp;
+        case -1: // graduationinfo
+            let tem = []
+            for (var key in info){
+                tem.push({name:key,value:info[key]})
+            }
+            return {title : path, data: tem}
     }
 }
 
