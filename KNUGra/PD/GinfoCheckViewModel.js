@@ -62,6 +62,7 @@ export default class GInfoCheckViewModel {
             let temp = func(trackname);
             if (temp !== NO_TRACK) { DATA.push(temp); }
         });
+        console.log(DATA);
         return DATA;
     }
 }

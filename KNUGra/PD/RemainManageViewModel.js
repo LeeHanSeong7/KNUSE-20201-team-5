@@ -8,6 +8,8 @@ import designSubjectList from '../DM/jsonfiles/designSubjectList';
 import startupSubjectList from '../DM/jsonfiles/startupSubjectList';
 import recommendedSubjectList from '../DM/jsonfiles/recommendedSubjectList';
 import graduationInfoLists from '../DM/jsonfiles/graduationInfoLists';
+
+const DATA_title = '졸업요건 달성현황';
 const NO_TRACK = "no track";
 let student = new Student
 
@@ -48,13 +50,12 @@ export default class RemainManageViewModel {
     getManageRemainUIstring(trackname) {
         let DATA = [];
         let temp = [];let arr1 = []; let arr2 = [];
-        let d_list = [];
-        let carrylist = {};
+        let carrylist =  student.getCareerList();
 
         function progressMapping(item){
             const subj = item.name;
             let stuV = carrylist[subj];
-        
+
             if (stuV == undefined){//학생이 관련정보가 없을때
                 if (Number.isInteger(item.value)){//숫자정보 일때
                     item.value = `-/${item.value}`;
@@ -85,11 +86,6 @@ export default class RemainManageViewModel {
             }
             temp.push(item);
         }
-
-        student.getCareerList().map(function(item){
-            let key = Object.keys(item)[0];
-            carrylist[key]=item[key];
-        });
         
         //temp 에 총합 추가해야함
         this.getGraduationInfoUIstring(trackname).map(function(item){
@@ -100,10 +96,11 @@ export default class RemainManageViewModel {
         });
         arr1.map(progressMapping);
         arr2.map(progressMapping);
-        temp.push(getList(trackname))
+        //temp.push(getList(trackname))
         
-        DATA.push({title : '졸업요건 달성현황', data : temp});
+        DATA.push({title : DATA_title, data : temp});
         
+        console.log(DATA);
         return DATA;
     }
 }
@@ -133,7 +130,7 @@ function getUIstring(num, trackname, info, path) {
             for (var key in info){
                 tem.push({name:key,value:info[key]})
             }
-            return {title : path, data: tem}
+        return tem;
     }
 }
 
@@ -158,12 +155,7 @@ function getList(tname){
             data.push(getListData(tname,"SW전공",requiredSubjectList["연계전공교양교육과정"]));
             data.push(getListData(tname,"연계전공",recommendedSubjectList[tname]));  return data;
     }
-    
-
-    
-    
 }
-
 function getListData(tname,tit, subjectList) {
     let dat = [];
     let stuPerformed = student.getCompletedSubjectList();
