@@ -1,7 +1,5 @@
 import Database from '../DM/Database';
 import DAPATH from '../DM/DAPATH';
-import Student from '../DM/Student';
-import graduationInfoLists from '../DM/jsonfiles/graduationInfoLists';
 
 const NO_TRACK = "no track";
 export default class GInfoCheckViewModel {
@@ -43,7 +41,7 @@ export default class GInfoCheckViewModel {
     }
 
     getGraduationInfoUIstring(trackname) {
-        return getUIstring(-1, trackname, graduationInfoLists[trackname], DAPATH.GRAINFO_GRADUATION);
+        return getUIstring(-1, trackname, Database.getGraduationInfoLists()[trackname], DAPATH.GRAINFO_GRADUATION);
     }
 
     getSWgeneralUIstring(trackname) {

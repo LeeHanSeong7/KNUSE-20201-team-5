@@ -42,6 +42,7 @@ const DAPATH = {
     GRAINFO_COMBINED :"연계전공",
 
     //graduationInfoLists
+    LIST_REQUIRED : "필수과목",
     LIST_DESIGN : "설계과목",
 
 }

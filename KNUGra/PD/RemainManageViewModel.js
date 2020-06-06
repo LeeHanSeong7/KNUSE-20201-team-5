@@ -3,20 +3,21 @@ import DAPATH from '../DM/DAPATH';
 import { detailList } from '../DM/DAPATH';
 import Student from '../DM/Student';
 
-import requiredSubjectList from '../DM/jsonfiles/requiredSubjectList';
-import designSubjectList from '../DM/jsonfiles/designSubjectList';
-import startupSubjectList from '../DM/jsonfiles/startupSubjectList';
-import recommendedSubjectList from '../DM/jsonfiles/recommendedSubjectList';
-import graduationInfoLists from '../DM/jsonfiles/graduationInfoLists';
-
 const DATA_title = '졸업요건 달성현황';
+const NO_INFO = `정보없음`;
 const NO_TRACK = "no track";
-let student = new Student
 
 //문자정보 처리방식
 let stustat = {}
 stustat[DAPATH.GRAINFO_ENGLISH] = ["fail","pass"];
+//이수 현황 텍스트
+let tit_text = {};
+tit_text[DAPATH.LIST_REQUIRED] = "필수 과목 이수 현황";
+tit_text[DAPATH.LIST_DESIGN] = "설계 과목 이수 현황";
+
 //-----//
+
+let student = new Student
 
 export default class RemainManageViewModel {
     getDesignUIstring(trackname) {
@@ -36,7 +37,7 @@ export default class RemainManageViewModel {
     }
 
     getGraduationInfoUIstring(trackname) {
-        return getUIstring(-1, trackname, graduationInfoLists[trackname], DAPATH.GRAINFO_GRADUATION);
+        return getUIstring(-1, trackname, Database.getGraduationInfoLists()[trackname], DAPATH.GRAINFO_GRADUATION);
     }
 
     getSWgeneralUIstring(trackname) {
@@ -49,7 +50,7 @@ export default class RemainManageViewModel {
 
     getManageRemainUIstring(trackname) {
         let DATA = [];
-        let temp = [];let arr1 = []; let arr2 = [];
+        let temp = [];let arr1 = []; //let arr2 = [];
         let carrylist =  student.getCareerList();
 
         function progressMapping(item){
@@ -58,11 +59,11 @@ export default class RemainManageViewModel {
 
             if (stuV == undefined){//학생이 관련정보가 없을때
                 if (Number.isInteger(item.value)){//숫자정보 일때
-                    item.value = `-/${item.value}`;
+                    item.value = `-/${item.value}${DAPATH.SUBJECT_CREDIT}`;
                     item.progress = 0;
                 }
                 else if (subj in stustat){//문자정보일때 처리방식이 정의되어 있음
-                    item.value = `정보없음`;
+                    item.value = NO_INFO;
                     item.progress = 0;
                 }
                 else 
@@ -72,7 +73,7 @@ export default class RemainManageViewModel {
                 if (Number.isInteger(item.value)){//숫자정보 일때
                     item.progress = Math.floor((stuV*100)/item.value)/100;
                     if (item.progress > 1) item.progress = 1;
-                    item.value = `${stuV}/${item.value}`;
+                    item.value = `${stuV}/${item.value}${DAPATH.SUBJECT_CREDIT}`;
                 }
                 else if (subj in stustat){//문자정보일때 처리방식이 정의되어 있음
                     item.value = `${stuV}`;
@@ -91,15 +92,17 @@ export default class RemainManageViewModel {
         this.getGraduationInfoUIstring(trackname).map(function(item){
                 if (detailList.indexOf(item.name) == -1)
                     arr1.push(item);
-                else 
-                    arr2.push(item);
+                //else 
+                   // arr2.push(item);
         });
         arr1.map(progressMapping);
-        arr2.map(progressMapping);
-        //temp.push(getList(trackname))
-        
+
+        getList(trackname).map(function(item){
+            temp.push(item);
+        });
+
         DATA.push({title : DATA_title, data : temp});
-        
+
         console.log(DATA);
         return DATA;
     }
@@ -137,23 +140,26 @@ function getUIstring(num, trackname, info, path) {
 
 function getList(tname){
     let data = [];
-    
+    let reqlist = Database.getRequiredSubjectLists();
+    let deslist = Database.getDesignSubjectList();
+    let reclist = Database.getRecommendedSubjectLists();
+
     switch (tname){
-        case "심화컴퓨터전공(ABEEK)": 
-            data.push(getListData(tname,"필수과목",requiredSubjectList[tname])); 
-            data.push(getListData(tname,"설계과목",designSubjectList)); return data;
-        case "글로벌소프트웨어전공(다중전공트랙)":
-        case "글로벌소프트웨어전공(해외복수학위트랙)":
-        case "글로벌소프트웨어전공(학석사연계트랙)":
-            data.push(getListData(tname,"필수과목",requiredSubjectList[tname])); 
-            data.push(getListData(tname,"창업역량",designSubjectList)); return data;
-        case "핀테크전공":
-        case "빅데이터전공":
-        case "미디어아트":
-        case "건설IT전공":
-            data.push(getListData(tname,"SW전공",requiredSubjectList["연계전공공통교육과정"]));
-            data.push(getListData(tname,"SW전공",requiredSubjectList["연계전공교양교육과정"]));
-            data.push(getListData(tname,"연계전공",recommendedSubjectList[tname]));  return data;
+        case DAPATH.COMPUTPER_ABEEK: 
+            data.push(getListData(tname,DAPATH.LIST_REQUIRED,reqlist[tname])); 
+            data.push(getListData(tname,DAPATH.LIST_DESIGN,deslist)); return data;
+        case DAPATH.GLOBAL_SOFTWARE_DOUBLE_MAJOR:
+        case DAPATH.GLOBAL_SOFTWARE_OVERSEAS_UNIV:
+        case DAPATH.GLOBAL_SOFTWARE_MASTERS_CHAINING:
+            data.push(getListData(tname,DAPATH.LIST_REQUIRED,reqlist[tname])); 
+            data.push(getListData(tname,DAPATH.GRAINFO_STARTUP,deslist)); return data;
+        case FINTECH:
+        case BIGDATA:
+        case MEDIAART:
+        case CONSTRUCTION_IT:
+            data.push(getListData(tname,DAPATH.GRAINFO_COMMON_MAJOR,reqlist[DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR]));
+            data.push(getListData(tname,DAPATH.GRAINFO_GENERAL,reqlist[DAPATH.SOFTWARE_COMBINED_GENERAL]));
+            data.push(getListData(tname,DAPATH.GRAINFO_COMBINED,reclist[tname]));  return data;
     }
 }
 function getListData(tname,tit, subjectList) {
@@ -162,26 +168,31 @@ function getListData(tname,tit, subjectList) {
     let val = 0
     let prog = 0
     var i = 0
-    let total = 1*graduationInfoLists[tname][tit];
+    let gralist = Database.getGraduationInfoLists();
+    let total = 1*gralist[tname][tit];
+
     for (i=0; i<Object.keys(subjectList).length; i++){
-       dat.push({title : subjectList[i]["교과목명"] , value : 'X'});
+       dat.push({title : subjectList[i][DAPATH.SUBJECT_NAME] , value : 'X'});
         for (var j=0; j<Object.keys(stuPerformed).length; j++){
-            if (subjectList[i]["교과목명"] === stuPerformed[j]["교과목명"] ) {
+            if (subjectList[i][DAPATH.SUBJECT_NAME] === stuPerformed[j][DAPATH.SUBJECT_NAME] ) {
                 dat[i]["value"] = "O"
-                if (tit === "필수과목" )  val += 1;
-                else val += 1*stuPerformed[j]["학점"];
+                if (tit === DAPATH.LIST_REQUIRED )  val += 1;
+                else val += 1*stuPerformed[j][DAPATH.SUBJECT_CREDIT];
             }
         }
     }
-    console.log(graduationInfoLists[tname][2]["전공기반"])
-    if (tit === "필수과목") { 
-        prog = 100*(val/i).toFixed(2) + "%"; 
-        val = val +"/"+i
+    if (tit === DAPATH.LIST_REQUIRED) { 
+        //prog = 100*(val/i).toFixed(2) + "%"; 
+        prog = Math.floor((val*100)/i)/100;
+        if (prog > 1) prog = 1;
+        val = val +"/"+i+"과목";
     }
     else { 
-        prog = 100*(val/total).toFixed(2) + "%"; 
-        val = val + "/" + total;
+        //prog = 100*(val/total).toFixed(2) + "%"; 
+        prog = Math.floor((val*100)/total)/100;
+        if (prog > 1) prog = 1;
+        val = val + "/" + total+DAPATH.SUBJECT_CREDIT;
     }
-
-    return {title : tit,value : val,progress: prog,list : {title : tit, data: dat}};
+    
+    return {name : tit,value : val,progress: prog,list : {title : tit_text[tit], data: dat}};
 }
