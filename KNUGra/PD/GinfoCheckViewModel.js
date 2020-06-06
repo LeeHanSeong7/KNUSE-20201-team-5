@@ -1,6 +1,7 @@
 import Database from '../DM/Database';
 import DAPATH from '../DM/DAPATH';
 import Student from '../DM/Student';
+import graduationInfoLists from '../DM/jsonfiles/graduationInfoLists';
 
 const NO_TRACK = "no track";
 export default class GInfoCheckViewModel {
@@ -42,7 +43,7 @@ export default class GInfoCheckViewModel {
     }
 
     getGraduationInfoUIstring(trackname) {
-        return getUIstring(-1, trackname, Database.getGraduationInfoLists(), DAPATH.GRAINFO_GRADUATION);
+        return getUIstring(-1, trackname, graduationInfoLists[trackname], DAPATH.GRAINFO_GRADUATION);
     }
 
     getSWgeneralUIstring(trackname) {
@@ -70,7 +71,6 @@ function getUIstring(num, trackname, info, path) {
         
         case -2:info = info[path]; //SW
         
-        case -1: // graduationinfo
 
         case 0: //required, recommended
             if (num !== -2) info = info[trackname];
@@ -86,5 +86,13 @@ function getUIstring(num, trackname, info, path) {
                 }
             });
             return { title: path, data: temp };
+
+
+        case -1: // graduationinfo
+            let tem = []
+            for (var key in info){
+                tem.push({name:key,value:info[key]})
+            }
+            return {title : path, data: tem}
     }
 }
