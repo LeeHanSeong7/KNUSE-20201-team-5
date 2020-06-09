@@ -20,6 +20,9 @@ tit_text[DAPATH.LIST_DESIGN] = "설계 과목 이수 현황";
 let student = new Student
 
 export default class RemainManageViewModel {
+    getGraduationInfoUIstring(trackname) {
+        return getUIstring(-1, trackname, Database.getGraduationInfoLists()[trackname], DAPATH.GRAINFO_GRADUATION);
+    }
     getDesignUIstring(trackname) {
         return getUIstring(1, trackname, Database.getDesignSubjectList(), DAPATH.GRAINFO_DESIGN);
     }
@@ -29,23 +32,19 @@ export default class RemainManageViewModel {
     }
 
     getRequiredUIstring(trackname) {
-        return getUIstring(0, trackname, Database.getRequiredSubjectLists(), DAPATH.GRAINFO_REQUIRED);
+        return getUIstring(1, trackname, Database.getRequiredSubjectLists()[trackname], DAPATH.GRAINFO_REQUIRED);
     }
 
     getRecommendedUIstring(trackname) {
-        return getUIstring(0, trackname, Database.getRecommendedSubjectLists(), DAPATH.GRAINFO_COMBINED);
-    }
-
-    getGraduationInfoUIstring(trackname) {
-        return getUIstring(-1, trackname, Database.getGraduationInfoLists()[trackname], DAPATH.GRAINFO_GRADUATION);
+        return getUIstring(1, trackname, Database.getRecommendedSubjectLists()[trackname], DAPATH.GRAINFO_COMBINED);
     }
 
     getSWgeneralUIstring(trackname) {
-        return getUIstring(-2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_GENERAL);
+        return getUIstring(1, trackname, Database.getRequiredSubjectLists()[DAPATH.SOFTWARE_COMBINED_GENERAL], DAPATH.SOFTWARE_COMBINED_GENERAL);
     }
 
     getSWcommonUIstring(trackname) {
-        return getUIstring(-2, trackname, Database.getRequiredSubjectLists(), DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
+        return getUIstring(1, trackname, Database.getRequiredSubjectLists()[DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR], DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR);
     }
 
     getManageRemainUIstring(trackname) {
@@ -110,15 +109,7 @@ export default class RemainManageViewModel {
 
 function getUIstring(num, trackname, info, path) {
     switch (num) {
-        
-        case -2:info = info[path]; //SW
-        
-        
-        case 0: //required, recommended
-            if (num !== -2) info = info[trackname];
-            if (info === undefined) return NO_TRACK;
-
-        case 1: //Design, StartUp      
+        case 1:     
             let temp = info.map(function (item) {
                 if (num === -1) { // graduationinfo
                     let key = Object.keys(item)[0];
@@ -157,9 +148,9 @@ function getList(tname){
         case BIGDATA:
         case MEDIAART:
         case CONSTRUCTION_IT:
+            data.push(getListData(tname,DAPATH.GRAINFO_COMBINED,reclist[tname]));  
             data.push(getListData(tname,DAPATH.GRAINFO_COMMON_MAJOR,reqlist[DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR]));
-            data.push(getListData(tname,DAPATH.GRAINFO_GENERAL,reqlist[DAPATH.SOFTWARE_COMBINED_GENERAL]));
-            data.push(getListData(tname,DAPATH.GRAINFO_COMBINED,reclist[tname]));  return data;
+            data.push(getListData(tname,DAPATH.GRAINFO_GENERAL,reqlist[DAPATH.SOFTWARE_COMBINED_GENERAL]));return data;
     }
 }
 function getListData(tname,tit, subjectList) {
