@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Platform, StatusBar, YellowBox } from 'react-native';
-import { SplashScreen } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginView from './UI/views/LoginView';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import BottomTabNavigator from './UI/navigation/BottomTabNavigator';
 import Database from './DM/Database';
+import TcpSocket from 'react-native-tcp-socket';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +19,6 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHide();
         // load database at the beginning .. .
         Database.load();
         // Load fonts if we want
@@ -27,7 +26,6 @@ export default function App(props) {
         console.warn(e);
       } finally {
         setLoadingComplete(true);
-        SplashScreen.hide();
       }
     }
 
