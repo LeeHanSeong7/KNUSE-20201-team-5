@@ -1,5 +1,7 @@
 import Database from '../DM/Database';
 
-export default function login(id,pw, trackname){
-    return true
-}
+export default {
+    login: (id, pw, major) => {
+        return Database.login(id, pw, major);
+    },
+};
