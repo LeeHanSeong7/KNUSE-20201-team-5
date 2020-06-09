@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Image, KeyboardAvoidingView, Button, Picker } from 'react-native';
+import { StyleSheet, View, Image, KeyboardAvoidingView, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
 import logo from '../../assets/images/login_logo.png';
 import MajorPicker from '../components/MajorPicker';
+import LoginViewModel from '../../PD/LoginViewModel';
 
 export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [id, onChangeIDText] = React.useState(isAutoLoginOn ? '미리 저장된 ID' : "");
@@ -12,7 +13,13 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
     const onPressLogIn = () => {
         setButtonDisabled(true);
-        setUserLoggedIn(true);
+        const loginResult = LoginViewModel.login(id,password,selectedPickerValue);
+
+        
+        switch (loginResult) {
+            case true: setUserLoggedIn(true);
+        } 
+        
     }
 
     return (
