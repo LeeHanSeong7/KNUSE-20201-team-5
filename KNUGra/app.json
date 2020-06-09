@@ -22,7 +22,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "knugra.leehanseong7.github.com"
+    },
+    "android": {
+      "package": "knugra.leehanseong7.github.com"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
