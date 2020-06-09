@@ -26,40 +26,32 @@ export default class GInfoCheckViewModel {
     DAPATH.GLOBAL_SOFTWARE_MASTERS_CHAINING, DAPATH.FINTECH, DAPATH.BIGDATA, DAPATH.MEDIAART, DAPATH.CONSTRUCTION_IT];
 
     getGraduationInfoUIstring(trackname) {
-        var info = Database.getGraduationInfoLists()[trackname]
-        return getUIstring(-1,  info, DAPATH.GRAINFO_GRADUATION);
+        console.log("after : "+getUIstring(-1,  Database.getGraduationInfoLists()[trackname], DAPATH.GRAINFO_GRADUATION))
+        return getUIstring(-1,  Database.getGraduationInfoLists()[trackname], DAPATH.GRAINFO_GRADUATION);
     }
 
     getDesignUIstring(trackname) {
-        var info = Database.getDesignSubjectList()
-        return getUIstring(1, info, DAPATH.GRAINFO_DESIGN);
+        return getUIstring(1, Database.getDesignSubjectList(), DAPATH.GRAINFO_DESIGN);
     }
 
     getStartupUIstring(trackname) {
-        var info = Database.getStartupSubjectList()
-        return getUIstring(1, info, DAPATH.GRAINFO_STARTUP);
+        return getUIstring(1, Database.getStartupSubjectList(), DAPATH.GRAINFO_STARTUP);
     }
 
     getRequiredUIstring(trackname) {
-        var info = Database.getRequiredSubjectLists()[trackname]
-        return getUIstring(1, info, DAPATH.GRAINFO_REQUIRED);
+        return getUIstring(1, Database.getRequiredSubjectLists()[trackname], DAPATH.GRAINFO_REQUIRED);
     }
 
     getRecommendedUIstring(trackname) {
-        var info = Database.getRecommendedSubjectLists()[trackname]
-        return getUIstring(1, info, DAPATH.GRAINFO_COMBINED);
+        return getUIstring(1, Database.getRecommendedSubjectLists()[trackname], DAPATH.GRAINFO_COMBINED);
     }
 
     getSWgeneralUIstring(trackname) {
-        var path = DAPATH.SOFTWARE_COMBINED_GENERAL;
-        var info = Database.getRequiredSubjectLists()[path];
-        return getUIstring(1, info, path);
+        return getUIstring(1,  Database.getRequiredSubjectLists()[DAPATH.SOFTWARE_COMBINED_GENERAL], DAPATH.SOFTWARE_COMBINED_GENERAL);
     }
 
     getSWcommonUIstring(trackname) {
-        var path = DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR
-        var info = Database.getRequiredSubjectLists()[path];
-        return getUIstring(1,  info,path );
+        return getUIstring(1,  Database.getRequiredSubjectLists()[DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR],DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR );
     }
 
     getGInfoCheckUIstring(trackname) {
