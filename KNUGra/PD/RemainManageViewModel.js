@@ -53,7 +53,9 @@ export default class RemainManageViewModel {
         let DATA = [];
         let temp = [];let arr1 = []; //let arr2 = [];
         let carrylist =  student.getCareerList();
-
+        carrylist["공학인증"] = carrylist["기본소양"]+carrylist["전공기반"]+carrylist["공학전공"];
+        console.log("공학인증");
+        console.log(carrylist);
         function progressMapping(item){
             const subj = item.name;
             let stuV = carrylist[subj];
