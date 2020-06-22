@@ -5,6 +5,9 @@ import { TextInput } from 'react-native-gesture-handler';
 import logo from '../../assets/images/login_logo.png';
 import MajorPicker from '../components/MajorPicker';
 import LoginViewModel from '../../PD/LoginViewModel';
+import Database from '../../DM/Database';
+
+let idStore;
 
 export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [id, onChangeIDText] = React.useState(isAutoLoginOn ? '미리 저장된 ID' : "");
@@ -13,14 +16,47 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
     const onPressLogIn = () => {
         setButtonDisabled(true);
-        const loginResult = LoginViewModel.login(id,password,selectedPickerValue);
-
-        
-        switch (loginResult) {
-            case true: setUserLoggedIn(true);
-        } 
-        
+        idStore = (' ' + id).slice(1);
+        console.log("onpress : " + idStore);
+        LoginViewModel.login(id,password,selectedPickerValue);        
     }
+
+    const loginSuccess = () => {
+        Database.update(idStore,selectedPickerValue);
+        setUserLoggedIn(true);
+    }
+
+    React.useEffect(() => {
+        async function loadResourcesAndDataAsync() {
+          try {
+            // load database at the beginning .. .
+            console.log("123");
+            const store = Database.getStore();
+            store.subscribe(() => {
+              let {updateSucceed, loggedIn} = store.getState();
+              if (loggedIn && !updateSucceed) {
+                  loginSuccess();
+              } else {
+                  setButtonDisabled(false);
+              }
+            });
+            // Load fonts if we want
+          } catch(e) {
+            console.warn(e);
+          } finally {
+          }
+        }
+        loadResourcesAndDataAsync();
+      }, []);
+
+
+    // store.subscribe(() => {
+    //     let {updateSucceed, loggedIn} = store.getState();
+    //     console.log("haha");
+    //     if (!loggedIn) {
+    //       setButtonDisabled(false);
+    //     }
+    // });
 
     return (
         <SafeAreaView style={styles.container}>

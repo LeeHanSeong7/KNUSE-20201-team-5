@@ -6,7 +6,9 @@ import LoginView from './UI/views/LoginView';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import BottomTabNavigator from './UI/navigation/BottomTabNavigator';
 import Database from './DM/Database';
-import TcpSocket from 'react-native-tcp-socket';
+//import TcpSocket from 'react-native-tcp-socket';
+//import { connect } from 'react-redux'; 
+import types from './DM/actions/types';
 
 const Stack = createStackNavigator();
 
@@ -14,6 +16,7 @@ export default function App(props) {
 
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [isUserLoggedIn, setUserLoggedIn] = React.useState(false);
+  const [isUpdateComplete, setUpdateComplete] = React.useState(false);
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -21,6 +24,14 @@ export default function App(props) {
       try {
         // load database at the beginning .. .
         Database.load();
+        const store = Database.getStore();
+        store.subscribe(() => {
+          let {updateSucceed} = store.getState();
+          if (updateSucceed) {
+            setUpdateComplete(true);
+          } else { // error ui
+          }
+        });
         // Load fonts if we want
       } catch(e) {
         console.warn(e);
@@ -34,7 +45,7 @@ export default function App(props) {
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
-  } else if (!isUserLoggedIn) {
+  } else if (!isUserLoggedIn || !isUpdateComplete) {
     return (
     <SafeAreaProvider>
       <LoginView setUserLoggedIn={setUserLoggedIn} />

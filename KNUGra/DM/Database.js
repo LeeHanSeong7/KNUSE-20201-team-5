@@ -5,6 +5,10 @@ import RequiredSubjectListJSON from './jsonfiles/requiredSubjectList';
 import StartupSubjectListJSON from './jsonfiles/startupSubjectList';
 import User from './User.js';
 import ServerConnect from './ServerConnect.js';
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
+import reducers from './reducers';
+import types from './actions/types';
 
 let designSubjectList = null;
 let requiredSubjectList = null;
@@ -13,6 +17,28 @@ let recommendedSubjectList = null;
 let graduationInfoLists = null;
 let user = new User();
 let serverConnect = new ServerConnect();
+let store;
+
+
+const loadStore = () => {
+    store = createStore(stateReducer);
+};
+
+function stateReducer(state = {updateSucceed: false, loggedIn: false}, action) {
+    switch (action.type) {
+        case types.UPDATE_SUCCEES:
+            return {updateSucceed: true, loggedIn: state.loggedIn};
+        case types.UPDATE_FAIL:
+            return {updateSucceed: false, loggedIn: state.loggedIn};
+        case types.LOGIN_SUCCESS: 
+            return {updateSucceed: state.updateSucceed, loggedIn: true};
+        case types.LOGIN_FAIL: 
+            return {updateSucceed: state.updateSucceed, loggedIn: false};
+        default:
+            return state;
+    }
+}
+
 
 const loadDesignSubjectList = () => {
     designSubjectList = DesignSubjectListJSON;
@@ -37,6 +63,7 @@ const Database =  {
         loadStartupSubjectList();
         loadRecommendedSubjectLists();
         loadGraduationInfoLists();
+        loadStore();
     },
 
     getDesignSubjectList: () => {
@@ -55,14 +82,18 @@ const Database =  {
         return graduationInfoLists;
     },
     login : function(id,pw,major) {
-        return serverConnect.login(id,pw,major);
+        serverConnect.login(id,pw,major);
     },
     getStudent : function(){
         return user.getStudent();
     },
-    update : function(){
-        serverConnect.updateStudent();
-    }
+    update : function(id, major){
+        console.log("db : " + id);
+        serverConnect.updateStudent(id, major);
+    },
+    getStore : function() {
+        return store;
+    },
 }
 
 Object.freeze(Database);
