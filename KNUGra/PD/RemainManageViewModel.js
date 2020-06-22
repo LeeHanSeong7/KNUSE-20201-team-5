@@ -1,7 +1,6 @@
 import Database from '../DM/Database';
 import DAPATH from '../DM/DAPATH';
 import { detailList } from '../DM/DAPATH';
-import Student from '../DM/Student';
 
 const DATA_title = '졸업요건 달성현황';
 const NO_INFO = `정보없음`;
@@ -16,8 +15,7 @@ tit_text[DAPATH.LIST_REQUIRED] = "필수 과목 이수 현황";
 tit_text[DAPATH.LIST_DESIGN] = "설계 과목 이수 현황";
 
 //-----//
-
-let student = new Student;
+let student = Database.getStudent();
 let total = 0;
 let score = 0;
 
@@ -53,9 +51,20 @@ export default class RemainManageViewModel {
         let DATA = [];
         let temp = [];let arr1 = []; //let arr2 = [];
         let carrylist =  student.getCareerList();
-        carrylist["공학인증"] = carrylist["기본소양"]+carrylist["전공기반"]+carrylist["공학전공"];
+        
+        // for (let [key, value] of Object.entries(carrylist)) {
+        //     let V = parseInt(value);
+        //     console.log(V);
+        //     if (!isNaN(V))
+        //         carrylist[key] = V;
+        // }
+        //['기본소향', '전공기반', '공학전공'].map((key) => {carrylist['공학인증'] += (carrylist[key] === undefined) ? +'0' : +carrylist[key]});
+         if (carrylist["기본소양"] != undefined && carrylist["전공기반"] != undefined && carrylist["공학전공"] != undefined)
+             carrylist["공학인증"] = +carrylist["기본소양"] + +carrylist["전공기반"] + +carrylist["공학전공"];
+        
         console.log("공학인증");
         console.log(carrylist);
+
         function progressMapping(item){
             const subj = item.name;
             let stuV = carrylist[subj];
@@ -81,7 +90,7 @@ export default class RemainManageViewModel {
                         item.progress = 1;
                     }
                     else{
-                        score += stuV;
+                        score += +stuV;
                     }
                     item.value = `${stuV}/${item.value}${DAPATH.SUBJECT_CREDIT}`;
                 }
@@ -110,6 +119,8 @@ export default class RemainManageViewModel {
         getList(trackname).map(function(item){
             temp.push(item);
         });
+        console.log("score : "+ score);
+        console.log("total : "+ total);
         temp.unshift({name: "총 합",progress: Math.floor((score*100)/total)/100 });
         
         DATA.push({title : DATA_title, data : temp});

@@ -1,4 +1,5 @@
-
+import Database from './Database';
+import types from './actions/types';
 export default class Student {
     #careerList;
     #completedSubjectList;
@@ -51,17 +52,19 @@ export default class Student {
     }
     setCareerList = function (json) {
         this.#careerList = json;
+
     }
 
-    setJson = function (json) {
-        console.log("json : " +json);
-        this.#careerList = JSON.parse(JSON.stringify(json['getGradeInfo']));
-        this.#completedSubjectList = JSON.parse(JSON.stringify(json['completeSubjectList']));
+    setJson = function () {
+        //this.#careerList = JSON.parse(JSON.stringify(json['getGradeInfo']));
+        //this.#completedSubjectList = JSON.parse(JSON.stringify(json['completeSubjectList']));
     }
     getCompletedSubjectList = function () {
         return this.#completedSubjectList;
     }
     setCompletedSubjectList = function (json) {
         this.#completedSubjectList = json;
+        //console.log(this.#completedSubjectList);
+        Database.getStore().dispatch({type: types.UPDATE_SUCCEES});
     }
 }
