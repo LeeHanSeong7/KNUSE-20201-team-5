@@ -112,7 +112,7 @@ export default class RemainManageViewModel {
         
         DATA.push({title : DATA_title, data : temp});
 
-        console.log(DATA[0].data[9].list.data[0]);
+        //console.log(DATA[0].data[9].list.data[0]);
         return DATA;
     }
 }
@@ -154,10 +154,10 @@ function getList(tname){
         case DAPATH.GLOBAL_SOFTWARE_MASTERS_CHAINING:
             data.push(getListData(tname,DAPATH.LIST_REQUIRED,reqlist[tname])); 
             data.push(getListData(tname,DAPATH.GRAINFO_STARTUP,deslist)); return data;
-        case FINTECH:
-        case BIGDATA:
-        case MEDIAART:
-        case CONSTRUCTION_IT:
+        case DAPATH.FINTECH:
+        case DAPATH.BIGDATA:
+        case DAPATH.MEDIAART:
+        case DAPATH.CONSTRUCTION_IT:
             data.push(getListData(tname,DAPATH.GRAINFO_COMBINED,reclist[tname]));  
             data.push(getListData(tname,DAPATH.GRAINFO_COMMON_MAJOR,reqlist[DAPATH.SOFTWARE_COMBINED_COMMON_MAJOR]));
             data.push(getListData(tname,DAPATH.GRAINFO_GENERAL,reqlist[DAPATH.SOFTWARE_COMBINED_GENERAL]));return data;
