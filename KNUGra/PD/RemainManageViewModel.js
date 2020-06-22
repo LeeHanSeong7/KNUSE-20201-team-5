@@ -17,7 +17,9 @@ tit_text[DAPATH.LIST_DESIGN] = "설계 과목 이수 현황";
 
 //-----//
 
-let student = new Student
+let student = new Student;
+let total = 0;
+let score = 0;
 
 export default class RemainManageViewModel {
     getGraduationInfoUIstring(trackname) {
@@ -70,15 +72,25 @@ export default class RemainManageViewModel {
             }
             else{
                 if (Number.isInteger(item.value)){//숫자정보 일때
+                    total += item.value;
                     item.progress = Math.floor((stuV*100)/item.value)/100;
-                    if (item.progress > 1) item.progress = 1;
+                    if (item.progress > 1) {
+                        score += item.value;
+                        item.progress = 1;
+                    }
+                    else{
+                        score += stuV;
+                    }
                     item.value = `${stuV}/${item.value}${DAPATH.SUBJECT_CREDIT}`;
                 }
                 else if (subj in stustat){//문자정보일때 처리방식이 정의되어 있음
                     item.value = `${stuV}`;
-                    if (stuV == stustat[subj][1])
+                    total += 3;
+                    if (stuV == stustat[subj][1]){
                         item.progress = 1;
-                    else   
+                        score += 3;
+                    }
+                    else
                         item.progress = 0;
                 }
                 else 
@@ -86,8 +98,6 @@ export default class RemainManageViewModel {
             }
             temp.push(item);
         }
-        
-        //temp 에 총합 추가해야함
         this.getGraduationInfoUIstring(trackname).map(function(item){
                 if (detailList.indexOf(item.name) == -1)
                     arr1.push(item);
@@ -95,14 +105,14 @@ export default class RemainManageViewModel {
                    // arr2.push(item);
         });
         arr1.map(progressMapping);
-
         getList(trackname).map(function(item){
             temp.push(item);
         });
-
+        temp.unshift({name: "총 합",progress: Math.floor((score*100)/total)/100 });
+        
         DATA.push({title : DATA_title, data : temp});
 
-        console.log(DATA);
+        console.log(DATA[0].data[9].list.data[0]);
         return DATA;
     }
 }
@@ -160,10 +170,10 @@ function getListData(tname,tit, subjectList) {
     let prog = 0
     var i = 0
     let gralist = Database.getGraduationInfoLists();
-    let total = 1*gralist[tname][tit];
+    let T = 1*gralist[tname][tit];
 
     for (i=0; i<Object.keys(subjectList).length; i++){
-       dat.push({title : subjectList[i][DAPATH.SUBJECT_NAME] , value : 'X'});
+       dat.push({name : subjectList[i][DAPATH.SUBJECT_NAME] , value : 'X'});
         for (var j=0; j<Object.keys(stuPerformed).length; j++){
             if (subjectList[i][DAPATH.SUBJECT_NAME] === stuPerformed[j][DAPATH.SUBJECT_NAME] ) {
                 dat[i]["value"] = "O"
@@ -180,10 +190,9 @@ function getListData(tname,tit, subjectList) {
     }
     else { 
         //prog = 100*(val/total).toFixed(2) + "%"; 
-        prog = Math.floor((val*100)/total)/100;
+        prog = Math.floor((val*100)/T)/100;
         if (prog > 1) prog = 1;
-        val = val + "/" + total+DAPATH.SUBJECT_CREDIT;
-    }
-    
+        val = val + "/" + T+DAPATH.SUBJECT_CREDIT;
+    } 
     return {name : tit,value : val,progress: prog,list : {title : tit_text[tit], data: dat}};
 }

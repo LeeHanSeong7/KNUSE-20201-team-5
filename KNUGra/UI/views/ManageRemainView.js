@@ -10,7 +10,7 @@ export default function ManageRemain() {
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
 
     const manageRemainViewModel = new ManageRemainViewModel();
-    manageRemainViewModel.getManageRemainUIstring('심화컴퓨터전공(ABEEK)');
+    const data = manageRemainViewModel.getManageRemainUIstring(selectedPickerValue);
     return (
         <View style={styles.container}>
             <View style={styles.pickerArea}>
@@ -21,7 +21,7 @@ export default function ManageRemain() {
             </View>
             <View style={styles.listArea}>
                 <SectionList
-                    sections={DATA}
+                    sections={data}
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) => <Item name={item.name} value={item.value} progress={item.progress} list={item.list} ></Item>}
                     renderSectionHeader={({section: {title}}) => <Header style={styles.header} title={title}/>}
