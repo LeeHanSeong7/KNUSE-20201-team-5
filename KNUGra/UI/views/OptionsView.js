@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, Text, Button } from 'react-native';
+import Database from '../../DM/Database';
+import types from '../../DM/actions/types';
 
 export default function OptionsView({route:{ params:{ setUserLoggedIn }}}) {
     
 
     const onLogoutButtonPress = () => {
         setUserLoggedIn(false);
+        Database.getStore().dispatch({type: types.LOGOUT});
     };
     return (
         <View style={styles.container}>

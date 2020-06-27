@@ -14,6 +14,7 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     const [password, onChangePWText] = React.useState();
     const [isButtonDisabled, setButtonDisabled] = React.useState(false);
     const [selectedPickerValue, setSelectedPickerValue] = React.useState('심화컴퓨터전공(ABEEK)');
+
     const onPressLogIn = () => {
         setButtonDisabled(true);
         idStore = (' ' + id).slice(1);
@@ -22,6 +23,7 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
     }
 
     const loginSuccess = () => {
+        console.log("database update : " + this);
         Database.update(idStore,selectedPickerValue);
         setUserLoggedIn(true);
     }
@@ -32,14 +34,22 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
             // load database at the beginning .. .
             console.log("123");
             const store = Database.getStore();
-            store.subscribe(() => {
-              let {updateSucceed, loggedIn} = store.getState();
-              if (loggedIn && !updateSucceed) {
-                  loginSuccess();
-              } else {
-                  setButtonDisabled(false);
-              }
+
+            let unsubscribe = store.subscribe(() => {
+                console.log("subscribe");
+                let {updateSucceed, loggedIn} = store.getState();
+                if (loggedIn && !updateSucceed) {
+                    console.log("loggedIn !updateSucced");
+                    loginSuccess();
+                } else if(!loggedIn && !updateSucceed) {
+                    setUserLoggedIn(false);
+                    setButtonDisabled(false);
+                } else if (loggedIn && updateSucceed) {
+                    console.log("loggedIn and updated Succeed");
+                    unsubscribe();
+                }
             });
+            
             // Load fonts if we want
           } catch(e) {
             console.warn(e);

@@ -34,6 +34,8 @@ function stateReducer(state = {updateSucceed: false, loggedIn: false}, action) {
             return {updateSucceed: state.updateSucceed, loggedIn: true};
         case types.LOGIN_FAIL: 
             return {updateSucceed: state.updateSucceed, loggedIn: false};
+        case types.LOGOUT:
+            return {updateSucceed: false, loggedIn: false};
         default:
             return state;
     }

@@ -30,7 +30,9 @@ export default function App(props) {
           if (updateSucceed) {
             setUpdateComplete(true);
           } else { // error ui
+            setUpdateComplete(false);
           }
+          
         });
         // Load fonts if we want
       } catch(e) {
