@@ -51,9 +51,13 @@ export default class ServerConnect {
         const string = JSON.stringify(json);
         const client = TcpSocket.createConnection({port:this.#port, host:this.#hostIP});
         console.log(id + "  " + major);
+        jsObject = null;
+        dataString = null;
+        console.log(jsObject);
+
         client.write(string);   
         client.on('data', (data)=> {   
-            console.log('Re: ' + "  data" + '\nlength:' + Object.keys(data).length);
+            console.log('Re: ' + "  data" + data + '\nlength:' + Object.keys(data).length);
             try {
                 jsObject = JSON.parse(data);
                 console.log("dataString = data : ");
@@ -75,12 +79,12 @@ export default class ServerConnect {
                 }
             }
             console.log("after error");
-            if (jsObject !== undefined) {
+            if (jsObject !== null) {
+                console.log("GOT !! jsObject");
                 console.log(jsObject);
                 const student = Database.getStudent();
                 student.setCareerList(jsObject['getGradeInfo']);
                 student.setCompletedSubjectList(jsObject['completeSubjectList']);
-                client.destroy();
             }
         });
     }
