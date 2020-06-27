@@ -11,6 +11,7 @@ export default function ManageRemain() {
 
     const manageRemainViewModel = new ManageRemainViewModel();
     const data = manageRemainViewModel.getManageRemainUIstring(selectedPickerValue);
+    console.log(data[0].data);
     return (
         <View style={styles.container}>
             <View style={styles.pickerArea}>
