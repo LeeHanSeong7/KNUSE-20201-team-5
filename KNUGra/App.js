@@ -8,7 +8,6 @@ import BottomTabNavigator from './UI/navigation/BottomTabNavigator';
 import Database from './DM/Database';
 //import TcpSocket from 'react-native-tcp-socket';
 //import { connect } from 'react-redux'; 
-import types from './DM/actions/types';
 
 const Stack = createStackNavigator();
 

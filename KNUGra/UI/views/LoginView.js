@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, KeyboardAvoidingView, Button } from 'react-native';
+import { StyleSheet, View, Image, KeyboardAvoidingView, Button, AsyncStorage } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
 import logo from '../../assets/images/login_logo.png';
@@ -22,9 +22,13 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
         LoginViewModel.login(id,password,selectedPickerValue);        
     }
 
-    const loginSuccess = () => {
-        console.log("database update : " + this);
-        Database.update(idStore,selectedPickerValue);
+    const loginSuccess = async () => {
+        
+        const selectedValue = await AsyncStorage.getItem('selected', (err, result) => {
+            console.log(result);
+            setSelectedPickerValue(result ?? '심화컴퓨터전공(ABEEK)');
+        });
+        Database.update(idStore,selectedValue);
         setUserLoggedIn(true);
     }
 
@@ -34,6 +38,11 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
             // load database at the beginning .. .
             console.log("123");
             const store = Database.getStore();
+
+            AsyncStorage.getItem('selected', (err, result) => {
+                console.log(result);
+                setSelectedPickerValue(result ?? '심화컴퓨터전공(ABEEK)');
+            });
 
             let unsubscribe = store.subscribe(() => {
                 console.log("subscribe");
@@ -60,13 +69,6 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
       }, []);
 
 
-    // store.subscribe(() => {
-    //     let {updateSucceed, loggedIn} = store.getState();
-    //     console.log("haha");
-    //     if (!loggedIn) {
-    //       setButtonDisabled(false);
-    //     }
-    // });
 
     return (
         <SafeAreaView style={styles.container}>

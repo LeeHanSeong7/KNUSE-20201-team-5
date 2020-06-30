@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Picker, Platform, ActionSheetIOS, Button, View, Text } from 'react-native';
+import { StyleSheet, Picker, Platform, ActionSheetIOS, Button, View, AsyncStorage } from 'react-native';
 import { Color, Font } from '../constants/Constants';
 import { allMajors } from '../../DM/DAPATH';
 
@@ -22,6 +22,7 @@ export default function MajorPicker({ selectedPickerValue, setSelectedPickerValu
                         case 0: break;
                         default:
                             setSelectedPickerValue(options[buttonIndex]);
+                            AsyncStorage.setItem('selected', options[buttonIndex]);
                             break;
                     }
                 }

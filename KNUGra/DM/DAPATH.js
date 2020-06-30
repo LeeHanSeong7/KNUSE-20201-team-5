@@ -40,6 +40,8 @@ const DAPATH = {
     GRAINFO_COMMON_MAJOR :"SW필수",
     GRAINFO_GENERAL :"SW교양",
     GRAINFO_COMBINED :"연계전공",
+    GRAINFO_ENG_COUNSEL :  "공학상담",
+    GRAINFO_COUNSEL     :   "상담",
 
     //graduationInfoLists
     LIST_REQUIRED : "필수과목",

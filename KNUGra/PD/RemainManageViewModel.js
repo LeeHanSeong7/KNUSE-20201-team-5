@@ -6,6 +6,16 @@ const DATA_title = '졸업요건 달성현황';
 const NO_INFO = `정보없음`;
 const NO_TRACK = "no track";
  
+//단위 정보
+function what_unit(item){
+    switch(item){
+        case DAPATH.GRAINFO_ENG_COUNSEL : 
+        case DAPATH.GRAINFO_COUNSEL     :
+            return "회"
+        default :
+            return DAPATH.SUBJECT_CREDIT;
+    }
+}
 //문자정보 처리방식
 let stustat = {}
 stustat[DAPATH.GRAINFO_ENGLISH] = ["fail","pass"];
@@ -97,7 +107,7 @@ export default class RemainManageViewModel {
                    else{
                        score += +stuV;
                    }
-                   item.value = `${stuV}/${item.value}${DAPATH.SUBJECT_CREDIT}`;
+                   item.value = `${stuV}/${item.value}${what_unit(subj)}`;
                }
                else if (subj in stustat){//문자정보일때 처리방식이 정의되어 있음
                    item.value = `${stuV}`;
@@ -187,13 +197,20 @@ function getListData(tname,tit, subjectList) {
    var i = 0
    let gralist = Database.getGraduationInfoLists();
    let T = 1*gralist[tname][tit];
- 
+   let design_list;
+   if (tit === DAPATH.LIST_DESIGN) {design_list = Database.getDesignSubjectList();};
    for (i=0; i<Object.keys(subjectList).length; i++){
       dat.push({name : subjectList[i][DAPATH.SUBJECT_NAME] , value : 'X'});
        for (var j=0; j<Object.keys(stuPerformed).length; j++){
            if (subjectList[i][DAPATH.SUBJECT_NAME] === stuPerformed[j][DAPATH.SUBJECT_NAME] ) {
                dat[i]["value"] = "O"
                if (tit === DAPATH.LIST_REQUIRED )  val += 1;
+               else if (tit === DAPATH.LIST_DESIGN){
+                   let target = design_list.find(function(item){
+                       return item[DAPATH.SUBJECT_NAME] === subjectList[i][DAPATH.SUBJECT_NAME];
+                   })
+                    val += 1*target[DAPATH.SUBJECT_CREDIT];
+               }
                else val += 1*stuPerformed[j][DAPATH.SUBJECT_CREDIT];
            }
        }
@@ -232,4 +249,3 @@ function getListData(tname,tit, subjectList) {
    }
    return {name : tit,value : val,progress: prog,list : {title : tit_text[tit], data: dat}};
 }
-
