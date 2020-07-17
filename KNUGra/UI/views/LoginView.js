@@ -42,6 +42,8 @@ export default function LoginView({ isAutoLoginOn, setUserLoggedIn }) {
             AsyncStorage.getItem('selected', (err, result) => {
                 console.log(result);
                 setSelectedPickerValue(result ?? '심화컴퓨터전공(ABEEK)');
+                if (result == null)
+                    AsyncStorage.setItem('selected', '심화컴퓨터전공(ABEEK)');
             });
 
             let unsubscribe = store.subscribe(() => {

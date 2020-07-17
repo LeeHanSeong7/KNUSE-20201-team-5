@@ -57,37 +57,22 @@ export default class ServerConnect {
 
         client.write(string);   
         client.on('data', (data)=> {   
-            console.log('Re: ' + "  data" + data + '\nlength:' + Object.keys(data).length);
-            try {
-                jsObject = JSON.parse(data);
-                console.log("dataString = data : ");
+            if (dataString == null) {
                 dataString = data;
-            } catch (error) {
-                console.log("if 1 : ");
-                if (dataString === null) {
-                    console.log("if 2 : ");
-                    dataString = data;
-                } else {
-                    console.log("else 1 : ");
-                    dataString = dataString + data;
-                    console.log("concat :");
-                    try {
-                        jsObject = JSON.parse(dataString);
-                    } catch (error) {
-                        console.log("no parsing : ");
-                    }
-                }
-            }
-            console.log("after error");
-            if (jsObject !== null) {
-                console.log("GOT !! jsObject");
-                console.log(jsObject);
-                const student = Database.getStudent();
-                student.setCareerList(jsObject['getGradeInfo']);
-                student.setCompletedSubjectList(jsObject['completeSubjectList']);
+            } else {
+                dataString += data;
             }
         });
+
+        client.on('close', function(){
+            jsObject = JSON.parse(dataString);
+            const student = Database.getStudent();
+            student.setCareerList(jsObject['getGradeInfo']);
+            student.setCompletedSubjectList(jsObject['completeSubjectList']);
+        });
     }
+
+    
     
     login(id, pw, major) {
         this.loginFromServer(id,pw,major);
