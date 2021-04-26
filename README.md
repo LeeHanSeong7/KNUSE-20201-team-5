@@ -1,2 +1,2 @@
-# KNUSE-20201-team-5
-텀프로젝트를 위한 repository
+# KNUGra-React-Native
+KNUGra 서비스를 Cross Platform 환경에서 구동이 가능하도록 React Native 앱으로 만들었습니다.
